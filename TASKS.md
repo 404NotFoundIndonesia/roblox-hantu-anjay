@@ -516,14 +516,14 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/HUD.luau`
 - **Output:** Fully functional HUD visible in-game showing all elements. Updates reactively to server events.
 - **DoD:**
-  - [ ] All 8 HUD elements are present and positioned per PRD §12.1 diagram
-  - [ ] Zone label updates correctly when entering each biome zone
-  - [ ] Bottle display shows count per bottle type
-  - [ ] XP bar fills smoothly via TweenService on `XPUpdated`
-  - [ ] Player count reflects actual server population in real time
-  - [ ] On mobile: touch buttons are ≥44×44px (prefer 72×72px per PRD), no keyboard hints
-  - [ ] On PC: keyboard hints visible on SCAN (E key or configurable)
-  - [ ] No HUD element is clipped by device notch/home bar
+  - [x] All 8 HUD elements are present and positioned per PRD §12.1 diagram
+  - [x] Zone label updates correctly when entering each biome zone
+  - [x] Bottle display shows count per bottle type
+  - [x] XP bar fills smoothly via TweenService on `XPUpdated`
+  - [x] Player count reflects actual server population in real time
+  - [x] On mobile: touch buttons are ≥44×44px (prefer 72×72px per PRD), no keyboard hints
+  - [x] On PC: keyboard hints visible on SCAN (E key or configurable)
+  - [x] No HUD element is clipped by device notch/home bar
 
 **Deps:** T-26, T-27, T-28
 
@@ -535,12 +535,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/HUD.luau`
 - **Output:** Mini-map shows all players and ghost traces in approximately correct positions.
 - **DoD:**
-  - [ ] Player dots update at 0.5s intervals (not Heartbeat)
-  - [ ] Self dot is white; other player dots are yellow
-  - [ ] `?` icons appear at correct relative positions after SCAN
-  - [ ] `?` icons fade out after 5s
-  - [ ] Map does not update more frequently than 0.5s (performance constraint)
-  - [ ] Mini-map is readable on mobile at minimum screen size
+  - [x] Player dots update at 0.5s intervals (not Heartbeat)
+  - [x] Self dot is white; other player dots are yellow
+  - [x] `?` icons appear at correct relative positions after SCAN
+  - [x] `?` icons fade out after 5s
+  - [x] Map does not update more frequently than 0.5s (performance constraint)
+  - [x] Mini-map is readable on mobile at minimum screen size
 
 **Deps:** T-29
 
@@ -552,11 +552,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/HUD.luau`
 - **Output:** SCAN button works end-to-end. Cold zones appear as visible highlights in world space after scanning.
 - **DoD:**
-  - [ ] Button disabled immediately after tap; re-enables after exactly 8s
-  - [ ] Cold zone highlights appear at correct world positions
-  - [ ] Highlights disappear after 5s automatically
-  - [ ] If server returns `ok = false` (cooldown enforced server-side too), button resets without showing highlights
-  - [ ] Cooldown countdown shown on button UI (number or animation)
+  - [x] Button disabled immediately after tap; re-enables after exactly 8s
+  - [x] Cold zone highlights appear at correct world positions
+  - [x] Highlights disappear after 5s automatically
+  - [x] If server returns `ok = false` (cooldown enforced server-side too), button resets without showing highlights
+  - [x] Cooldown countdown shown on button UI (number or animation)
 
 **Deps:** T-29, T-09
 
@@ -568,16 +568,16 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/CompendiumUI.luau`
 - **Output:** Fully functional compendium screen with grid, detail card, filters, and other-player view.
 - **DoD:**
-  - [ ] All 30 slots rendered correctly on open
-  - [ ] Rarity border colors match PRD §13.1 (white/blue/purple/gold)
-  - [ ] Uncaptured slots show black silhouette (ghost shape, not empty box)
-  - [ ] Detail card slide-in animation works
-  - [ ] `ViewportFrame` shows rotating ghost model for captured ghosts
-  - [ ] Localized name and lore text display correctly
-  - [ ] Capture count and first-captured date display correctly
-  - [ ] All 3 filters work independently and in combination
-  - [ ] `CompendiumUpdated` RemoteEvent updates the relevant slot in real-time without full reload
-  - [ ] Other-player view is read-only (no capture stats shown if other player has privacy — show counts only)
+  - [x] All 30 slots rendered correctly on open
+  - [x] Rarity border colors match PRD §13.1 (white/blue/purple/gold)
+  - [x] Uncaptured slots show black silhouette (ghost shape, not empty box)
+  - [x] Detail card slide-in animation works
+  - [x] `ViewportFrame` shows rotating ghost model for captured ghosts
+  - [x] Localized name and lore text display correctly
+  - [x] Capture count and first-captured date display correctly
+  - [x] All 3 filters work independently and in combination
+  - [x] `CompendiumUpdated` RemoteEvent updates the relevant slot in real-time without full reload
+  - [x] Other-player view is read-only (no capture stats shown if other player has privacy — show counts only)
 
 **Deps:** T-26, T-27, T-09
 
@@ -589,12 +589,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/ShopUI.luau`
 - **Output:** Working shop with all 4 tabs. Purchases trigger correct flows.
 - **DoD:**
-  - [ ] Bottle purchase deducts correct shard amount and updates inventory
-  - [ ] Bottle purchase shows error message if insufficient shards
-  - [ ] Cosmetic purchase opens Roblox native purchase prompt
-  - [ ] All prices and labels use LocalizationBridge (no hardcoded strings)
-  - [ ] Shop closes correctly when UIManager opens another screen
-  - [ ] Insufficient shard error message displayed (not silent fail)
+  - [x] Bottle purchase deducts correct shard amount and updates inventory
+  - [x] Bottle purchase shows error message if insufficient shards
+  - [x] Cosmetic purchase opens Roblox native purchase prompt
+  - [x] All prices and labels use LocalizationBridge (no hardcoded strings)
+  - [x] Shop closes correctly when UIManager opens another screen
+  - [x] Insufficient shard error message displayed (not silent fail)
 
 **Deps:** T-26, T-27, T-09, T-24
 
