@@ -197,12 +197,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/WorldBuilder.luau`
 - **Output:** At runtime, all 6 biome islands and the Hub island are visible in Workspace, positioned correctly, with `HauntPoint` Parts registered and accessible to `GhostSpawnManager`.
 - **DoD:**
-  - [ ] All 6 biome models placed at correct `worldOffset` per `ZoneDefs`
-  - [ ] Hub island placed at `Constants.HUB_SPAWN`
-  - [ ] `HauntPoint` Part count per zone matches `ZoneDef.hauntPointCount`
-  - [ ] `WorldBuilder.Ready` signal fires before any player can join
-  - [ ] Build completes in < 5s measured with `os.clock()`
-  - [ ] No biome model overlaps another (visually verify in Studio)
+  - [x] All 6 biome models placed at correct `worldOffset` per `ZoneDefs`
+  - [x] Hub island placed at `Constants.HUB_SPAWN`
+  - [x] `HauntPoint` Part count per zone matches `ZoneDef.hauntPointCount`
+  - [x] `WorldBuilder.Ready` signal fires before any player can join
+  - [x] Build completes in < 5s measured with `os.clock()`
+  - [x] No biome model overlaps another (visually verify in Studio)
 
 **Deps:** T-03, T-05, T-08
 
