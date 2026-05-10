@@ -610,11 +610,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/MiniGameController.luau`
 - **Output:** Clean dispatcher that routes mini-game events to the correct module. Result always shown to player.
 - **DoD:**
-  - [ ] Correct mini-game module opens for each of the 6 types
-  - [ ] `onInput` callback correctly invokes `RequestMiniGameInput` to server
-  - [ ] `stop()` is always called on `MiniGameEnd` regardless of result
-  - [ ] Result overlay shows correct localized string for success/fail
-  - [ ] Audio plays: `capture_success` on Success, `capture_fail` on Fail
+  - [x] Correct mini-game module opens for each of the 6 types
+  - [x] `onInput` callback correctly invokes `RequestMiniGameInput` to server
+  - [x] `stop()` is always called on `MiniGameEnd` regardless of result
+  - [x] Result overlay shows correct localized string for success/fail
+  - [x] Audio plays: `capture_success` on Success, `capture_fail` on Fail
 
 **Deps:** T-26, T-27, T-09
 
@@ -626,12 +626,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/MantraTap.luau`
 - **Output:** Playable MantraTap mini-game UI.
 - **DoD:**
-  - [ ] Symbol buttons are large enough for mobile tap (≥44×44px)
-  - [ ] Correct symbol glows clearly; wrong ones are clearly dimmed
-  - [ ] Timer bar depletes smoothly over `timeLimit` seconds
-  - [ ] Wrong tap flashes red; no progress
-  - [ ] Controller: A button confirms highlighted symbol; D-pad navigates (or auto-select next)
-  - [ ] Game stops cleanly on `stop()` (no orphan connections)
+  - [x] Symbol buttons are large enough for mobile tap (≥44×44px)
+  - [x] Correct symbol glows clearly; wrong ones are clearly dimmed
+  - [x] Timer bar depletes smoothly over `timeLimit` seconds
+  - [x] Wrong tap flashes red; no progress
+  - [x] Controller: A button confirms highlighted symbol; D-pad navigates (or auto-select next)
+  - [x] Game stops cleanly on `stop()` (no orphan connections)
 
 **Deps:** T-34
 
@@ -643,11 +643,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/BottleAim.luau`
 - **Output:** Playable BottleAim mini-game UI.
 - **DoD:**
-  - [ ] Reticle tracks ghost screen position even as ghost moves
-  - [ ] Progress circle fills correctly over hold duration
-  - [ ] Releasing input resets progress to 0 (no partial accumulation saved)
-  - [ ] Works for touch, mouse, and gamepad
-  - [ ] `onInput` called every 0.5s during hold, not every frame
+  - [x] Reticle tracks ghost screen position even as ghost moves
+  - [x] Progress circle fills correctly over hold duration
+  - [x] Releasing input resets progress to 0 (no partial accumulation saved)
+  - [x] Works for touch, mouse, and gamepad
+  - [x] `onInput` called every 0.5s during hold, not every frame
 
 **Deps:** T-34
 
@@ -659,12 +659,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/RhythmChant.luau`
 - **Output:** Playable DDR-style mini-game UI.
 - **DoD:**
-  - [ ] Notes scroll at correct speed derived from `bpm`
-  - [ ] Hit zone is visually clear (highlighted area at bottom)
-  - [ ] Tap registers within ±0.15s window; outside = no callback
-  - [ ] Sound plays on hit
-  - [ ] Works cross-platform: touch buttons (mobile), Q/W/E (PC), gamepad face buttons
-  - [ ] Notes are single-tap only (no holds required)
+  - [x] Notes scroll at correct speed derived from `bpm`
+  - [x] Hit zone is visually clear (highlighted area at bottom)
+  - [x] Tap registers within ±0.15s window; outside = no callback
+  - [x] Sound plays on hit
+  - [x] Works cross-platform: touch buttons (mobile), Q/W/E (PC), gamepad face buttons
+  - [x] Notes are single-tap only (no holds required)
 
 **Deps:** T-34
 
@@ -676,11 +676,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/SignalTriangulate.luau`
 - **Output:** Playable compass mini-game UI.
 - **DoD:**
-  - [ ] Compass ring rotates smoothly with input
-  - [ ] Submit button sends current angle
-  - [ ] Visual feedback (glow intensity or color) reflects `resistanceDelta` response
-  - [ ] Works cross-platform
-  - [ ] Angle wraps correctly 0°–360° (no negative angles)
+  - [x] Compass ring rotates smoothly with input
+  - [x] Submit button sends current angle
+  - [x] Visual feedback (glow intensity or color) reflects `resistanceDelta` response
+  - [x] Works cross-platform
+  - [x] Angle wraps correctly 0°–360° (no negative angles)
 
 **Deps:** T-34
 
@@ -692,12 +692,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/ShadowChase.luau`
 - **Output:** Playable ShadowChase mini-game UI.
 - **DoD:**
-  - [ ] Shadow position updates correctly from `GhostStateChanged` events
-  - [ ] Player avatar movement works on touch, keyboard, and gamepad
-  - [ ] Shadow contact fires `onInput` every 0.5s (not every frame)
-  - [ ] Body contact fires correctly and mini-game reset is reflected visually
-  - [ ] Duration countdown is visible
-  - [ ] Arena is clearly readable on mobile screen
+  - [x] Shadow position updates correctly from `GhostStateChanged` events
+  - [x] Player avatar movement works on touch, keyboard, and gamepad
+  - [x] Shadow contact fires `onInput` every 0.5s (not every frame)
+  - [x] Body contact fires correctly and mini-game reset is reflected visually
+  - [x] Duration countdown is visible
+  - [x] Arena is clearly readable on mobile screen
 
 **Deps:** T-34
 
@@ -709,11 +709,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/minigames/TeamSurround.luau`
 - **Output:** Players see world-space markers and fill state. No screen overlay blocking movement.
 - **DoD:**
-  - [ ] `BillboardGui` markers appear at correct world positions
-  - [ ] Markers update green/grey based on fill state from server packets
-  - [ ] Markers are removed cleanly on `stop()`
-  - [ ] "Waiting for players" or "All positions filled!" status shown in HUD
-  - [ ] No full-screen overlay — player can freely move in world during this mini-game
+  - [x] `BillboardGui` markers appear at correct world positions
+  - [x] Markers update green/grey based on fill state from server packets
+  - [x] Markers are removed cleanly on `stop()`
+  - [x] "Waiting for players" or "All positions filled!" status shown in HUD
+  - [x] No full-screen overlay — player can freely move in world during this mini-game
 
 **Deps:** T-34
 
