@@ -1,0 +1,19 @@
+# Roblox binary place files
+*.rbxl
+*.rbxlx
+
+# Rojo build output
+build/
+
+# Wally dependencies
+Packages/
+ServerPackages/
+wally.lock
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+.references/
