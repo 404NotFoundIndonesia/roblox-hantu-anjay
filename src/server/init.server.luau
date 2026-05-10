@@ -18,5 +18,14 @@ require(ServerScriptService.Server.systems.PlayerDataManager)
 local WorldBuilder = require(ServerScriptService.Server.systems.WorldBuilder)
 WorldBuilder.Build()
 
--- TODO (T-47): initialise remaining systems (GhostSpawnManager, CaptureSession,
--- QuestManager, EconomyManager) after WorldBuilder.Ready fires.
+-- 4. GhostSpawnManager — populates haunt points; must run after Build().
+local GhostSpawnManager = require(ServerScriptService.Server.systems.GhostSpawnManager)
+GhostSpawnManager.Init()
+
+-- 5. GhostAI detection triggers — cold zones, proximity tick, shard pickup.
+--    Must run after Build() so Workspace/World/ parts exist for ColdZone scan.
+local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
+GhostAI.InitDetection()
+
+-- TODO (T-47): initialise remaining systems (CaptureSession, QuestManager,
+-- EconomyManager) in dependency order.

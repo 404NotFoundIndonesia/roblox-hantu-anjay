@@ -218,15 +218,15 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/GhostSpawnManager.luau`
 - **Output:** Ghosts continuously populate the world. After capture or escape, a new ghost appears at a different haunt point after the cooldown. Never exceeds 20 active ghosts.
 - **DoD:**
-  - [ ] Ghosts spawn across all 6 zones within 30s of server start
-  - [ ] Rarity distribution over 100 spawns is approximately 60/28/10/2 (Common/Rare/Epic/Mythic) — log and verify
-  - [ ] Affinity ghosts appear in their preferred zones more frequently than non-affinity ones
-  - [ ] After a ghost is captured/escaped, it does not respawn at the exact same haunt point
-  - [ ] Active ghost count never exceeds 20
-  - [ ] `GhostSpawned` RemoteEvent fires to all clients with correct payload on each spawn
-  - [ ] `GhostDespawned` fires on capture/escape
-  - [ ] BataraGuruShadow spawns only when 4+ players present, only one at a time
-  - [ ] BataraGuruShadow despawns after 10 min if uncaptured
+  - [x] Ghosts spawn across all 6 zones within 30s of server start
+  - [x] Rarity distribution over 100 spawns is approximately 60/28/10/2 (Common/Rare/Epic/Mythic) — log and verify
+  - [x] Affinity ghosts appear in their preferred zones more frequently than non-affinity ones
+  - [x] After a ghost is captured/escaped, it does not respawn at the exact same haunt point
+  - [x] Active ghost count never exceeds 20
+  - [x] `GhostSpawned` RemoteEvent fires to all clients with correct payload on each spawn
+  - [x] `GhostDespawned` fires on capture/escape
+  - [x] BataraGuruShadow spawns only when 4+ players present, only one at a time
+  - [x] BataraGuruShadow despawns after 10 min if uncaptured
 
 **Deps:** T-03, T-04, T-05, T-08, T-09, T-11, T-12
 
@@ -238,11 +238,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/GhostAI.luau`
 - **Output:** Ghost models with Wanderer behavior visibly patrol between waypoints in Studio. On trigger, they stop and face the player.
 - **DoD:**
-  - [ ] Wanderer moves between waypoints without getting stuck (use path recompute on stuck detection)
-  - [ ] Wanderer speed matches `GhostDef.speed` for each ghost
-  - [ ] Wanderer does not walk off the island edge (PathfindingService respects geometry)
-  - [ ] Transition to `"Escaped"` fires correctly after 3s of `"Triggered"` with no capture
-  - [ ] `GhostStateChanged` RemoteEvent fires on every state transition
+  - [x] Wanderer moves between waypoints without getting stuck (use path recompute on stuck detection)
+  - [x] Wanderer speed matches `GhostDef.speed` for each ghost
+  - [x] Wanderer does not walk off the island edge (PathfindingService respects geometry)
+  - [x] Transition to `"Escaped"` fires correctly after 3s of `"Triggered"` with no capture
+  - [x] `GhostStateChanged` RemoteEvent fires on every state transition
 
 **Deps:** T-04, T-09, T-13
 
@@ -254,11 +254,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/GhostAI.luau`
 - **Output:** Hunter ghosts visibly chase players after being triggered.
 - **DoD:**
-  - [ ] Hunter begins chasing within 0.5s of trigger
-  - [ ] Path refreshes every 1s; ghost does not walk into walls for more than 2s
-  - [ ] Hunter locks onto original triggering player, ignores others during chase
-  - [ ] After 15s without capture start, Hunter state → `"Escaped"`
-  - [ ] `GhostStateChanged` fires on trigger and escape
+  - [x] Hunter begins chasing within 0.5s of trigger
+  - [x] Path refreshes every 1s; ghost does not walk into walls for more than 2s
+  - [x] Hunter locks onto original triggering player, ignores others during chase
+  - [x] After 15s without capture start, Hunter state → `"Escaped"`
+  - [x] `GhostStateChanged` fires on trigger and escape
 
 **Deps:** T-14
 
@@ -270,11 +270,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/GhostAI.luau`
 - **Output:** Trickster ghosts teleport and have visible decoys. Players who try to capture a decoy get an immediate fail response.
 - **DoD:**
-  - [ ] Trickster teleports every 4s while in `"Triggered"` state
-  - [ ] 1–2 decoy models spawn on trigger, are visually identical to real ghost
-  - [ ] Real ghost has a ParticleEmitter; decoys do not — distinguishable if you know what to look for
-  - [ ] `RequestCapture` on decoy instanceId returns `{ ok = false, error = "DECOY" }`
-  - [ ] Decoy models are destroyed when ghost transitions to `"Escaped"` or `"Captured"`
+  - [x] Trickster teleports every 4s while in `"Triggered"` state
+  - [x] 1–2 decoy models spawn on trigger, are visually identical to real ghost
+  - [x] Real ghost has a ParticleEmitter; decoys do not — distinguishable if you know what to look for
+  - [x] `RequestCapture` on decoy instanceId returns `{ ok = false, error = "DECOY" }`
+  - [x] Decoy models are destroyed when ghost transitions to `"Escaped"` or `"Captured"`
 
 **Deps:** T-14
 
@@ -286,12 +286,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/GhostAI.luau`
 - **Output:** All 4 triggers reliably transition ghosts from `"Patrolling"` to `"Triggered"`.
 - **DoD:**
-  - [ ] Proximity trigger fires when player walks within `detectionRange` studs
-  - [ ] Cold Zone trigger fires on `.Touched` and respects 30s cooldown per zone per player
-  - [ ] Shard pickup trigger fires when a player picks up a SpiritShard Part
-  - [ ] Idle trigger fires after 8s of standing still within 40 studs of a haunt point
-  - [ ] None of the triggers fire from the Hub Safe zone
-  - [ ] Trigger only fires if ghost is currently in `"Patrolling"` state (no double-trigger)
+  - [x] Proximity trigger fires when player walks within `detectionRange` studs
+  - [x] Cold Zone trigger fires on `.Touched` and respects 30s cooldown per zone per player
+  - [x] Shard pickup trigger fires when a player picks up a SpiritShard Part
+  - [x] Idle trigger fires after 8s of standing still within 40 studs of a haunt point
+  - [x] None of the triggers fire from the Hub Safe zone
+  - [x] Trigger only fires if ghost is currently in `"Patrolling"` state (no double-trigger)
 
 **Deps:** T-03, T-14, T-15, T-16
 
