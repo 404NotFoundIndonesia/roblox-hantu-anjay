@@ -19,10 +19,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** All files under `src/` as specified in PRD §1.
 - **Output:** Rojo syncs without errors; Roblox Studio sees all expected module locations; no `require` call fails due to missing path.
 - **DoD:**
-  - [ ] `default.project.json` paths resolve in Studio
-  - [ ] All placeholder modules return an empty table `{}`
-  - [ ] `init.server.luau` and `init.client.luau` run without error on empty requires
-  - [ ] No Rojo sync errors in terminal
+  - [x] `default.project.json` paths resolve in Studio
+  - [x] All placeholder modules return an empty table `{}`
+  - [x] `init.server.luau` and `init.client.luau` run without error on empty requires
+  - [x] No Rojo sync errors in terminal
 
 **Deps:** none
 
@@ -34,10 +34,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/Types.luau`
 - **Output:** A module that exports all types. Any other module can `require` it and get full type inference in a Luau LSP.
 - **DoD:**
-  - [ ] All types from PRD §2.1 are present and correctly shaped
-  - [ ] `PlayerProfile` includes the `milestones` field (`{ [string]: boolean }`) per PRD §4.3
-  - [ ] `GhostInstance.state` uses the `GhostState` union type
-  - [ ] No syntax errors; module loads cleanly
+  - [x] All types from PRD §2.1 are present and correctly shaped
+  - [x] `PlayerProfile` includes the `milestones` field (`{ [string]: boolean }`) per PRD §4.3
+  - [x] `GhostInstance.state` uses the `GhostState` union type
+  - [x] No syntax errors; module loads cleanly
 
 **Deps:** T-01
 
@@ -49,10 +49,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/Constants.luau`, `src/shared/XPTable.luau`
 - **Output:** Two modules. `Constants` returns the config table. `XPTable` returns a table indexed `[level] = cumulativeXP` for levels 2–100.
 - **DoD:**
-  - [ ] All constant keys from PRD §2.2 are present with correct values
-  - [ ] `XPTable[2] == 100`, `XPTable[3] == 230`, `XPTable[4] == 400` (matches PRD examples)
-  - [ ] `XPTable` covers levels 2–100 programmatically
-  - [ ] No magic numbers left in Constants that belong in XPTable or vice versa
+  - [x] All constant keys from PRD §2.2 are present with correct values
+  - [x] `XPTable[2] == 100`, `XPTable[3] == 230`, `XPTable[4] == 400` (matches PRD examples)
+  - [x] `XPTable` covers levels 2–100 programmatically
+  - [x] No magic numbers left in Constants that belong in XPTable or vice versa
 
 **Deps:** T-01
 
@@ -64,10 +64,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/GhostDefs.luau`
 - **Output:** A module returning a dictionary keyed by `GhostId` (e.g. `GhostDefs["Pocong"]`). Must be readable by both server and client.
 - **DoD:**
-  - [ ] All 30 ghost entries present with correct rarity, behavior, miniGame, maxResistance, and speed per PRD §20 table
-  - [ ] Each entry has a `nameKey` matching the pattern `GHOST_{ID}_NAME` and `loreKey` matching `GHOST_{ID}_LORE`
-  - [ ] `affinityZones` is a non-empty array for every ghost
-  - [ ] Module loads from both server and client contexts without error
+  - [x] All 30 ghost entries present with correct rarity, behavior, miniGame, maxResistance, and speed per PRD §20 table
+  - [x] Each entry has a `nameKey` matching the pattern `GHOST_{ID}_NAME` and `loreKey` matching `GHOST_{ID}_LORE`
+  - [x] `affinityZones` is a non-empty array for every ghost
+  - [x] Module loads from both server and client contexts without error
 
 **Deps:** T-02
 
@@ -79,11 +79,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/ZoneDefs.luau`
 - **Output:** A module returning a dictionary keyed by `ZoneId`. Used by `WorldBuilder`, `GhostSpawnManager`, `ZoneDetector`.
 - **DoD:**
-  - [ ] All 6 zones present: `Kuburan`, `KampungTua`, `HutanBambu`, `PantaiSepi`, `KuburanCina`, `SawahHaunted`
-  - [ ] `detectionVolume` bounds for each zone do not overlap each other
-  - [ ] `hauntPointCount` matches GDD §3.2 values (3–5 per zone)
-  - [ ] `affinityGhosts` arrays match GDD §3.2 Ghost Affinity column
-  - [ ] Module loads cleanly from both server and client
+  - [x] All 6 zones present: `Kuburan`, `KampungTua`, `HutanBambu`, `PantaiSepi`, `KuburanCina`, `SawahHaunted`
+  - [x] `detectionVolume` bounds for each zone do not overlap each other
+  - [x] `hauntPointCount` matches GDD §3.2 values (3–5 per zone)
+  - [x] `affinityGhosts` arrays match GDD §3.2 Ghost Affinity column
+  - [x] Module loads cleanly from both server and client
 
 **Deps:** T-02, T-04
 
@@ -95,10 +95,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/BottleDefs.luau`
 - **Output:** A module returning a dictionary keyed by `BottleId`.
 - **DoD:**
-  - [ ] All 5 bottles present: `BotolBiasa`, `BotolKacaBiru`, `BotolEmas`, `BotolKristal`, `BotolRetak`
-  - [ ] Catch rates match PRD §8.3 exactly (0.40 / 0.60 / 0.80 / 0.95 / 0.20)
-  - [ ] `BotolKristal.unlimited == true` and `maxDurability == nil`
-  - [ ] Module is identical between server and client reads
+  - [x] All 5 bottles present: `BotolBiasa`, `BotolKacaBiru`, `BotolEmas`, `BotolKristal`, `BotolRetak`
+  - [x] Catch rates match PRD §8.3 exactly (0.40 / 0.60 / 0.80 / 0.95 / 0.20)
+  - [x] `BotolKristal.unlimited == true` and `maxDurability == nil`
+  - [x] Module is identical between server and client reads
 
 **Deps:** T-02
 
@@ -110,10 +110,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/data/QuestDefs.luau`
 - **Output:** A module returning an array of `QuestDef` tables. Server-only.
 - **DoD:**
-  - [ ] All 6 quests present with correct IDs, types, targets, and rewards per PRD §9.1
-  - [ ] `trackFilter` present and correctly shaped for the 4 quests that need it
-  - [ ] `descKey` values match the localization manifest in PRD §21
-  - [ ] Module loads without error on server
+  - [x] All 6 quests present with correct IDs, types, targets, and rewards per PRD §9.1
+  - [x] `trackFilter` present and correctly shaped for the 4 quests that need it
+  - [x] `descKey` values match the localization manifest in PRD §21
+  - [x] Module loads without error on server
 
 **Deps:** T-02, T-05
 
@@ -125,10 +125,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/Util.luau`
 - **Output:** A module exporting the 4 utility functions above.
 - **DoD:**
-  - [ ] `weightedRandom` returns keys proportionally — verified by calling it 1000× and checking distribution
-  - [ ] `isInsideBounds` returns `true` when position is strictly inside bounds, `false` on boundary and outside
-  - [ ] `countTable` correctly counts a mix of filled and nil-holed tables
-  - [ ] `formatDate` returns correctly formatted string from a known timestamp
+  - [x] `weightedRandom` returns keys proportionally — verified by calling it 1000× and checking distribution
+  - [x] `isInsideBounds` returns `true` when position is strictly inside bounds, `false` on boundary and outside
+  - [x] `countTable` correctly counts a mix of filled and nil-holed tables
+  - [x] `formatDate` returns correctly formatted string from a known timestamp
 
 **Deps:** T-01
 
@@ -140,10 +140,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/shared/Remotes.luau`, `src/server/init.server.luau` (creation logic)
 - **Output:** All 16 RemoteEvents and 8 RemoteFunctions exist in `ReplicatedStorage/Remotes/` at runtime. Any module can `require(Remotes).GhostSpawned` and get the correct instance.
 - **DoD:**
-  - [ ] All 16 RemoteEvents from PRD §3.1 are created and accessible
-  - [ ] All 8 RemoteFunctions from PRD §3.2 are created and accessible (+ `RequestBuyBottle` from PRD §14.2)
-  - [ ] `Remotes.luau` uses `WaitForChild` with a timeout on client side (in case of race); errors clearly if timeout exceeded
-  - [ ] No two systems create the same remote independently
+  - [x] All 16 RemoteEvents from PRD §3.1 are created and accessible
+  - [x] All 8 RemoteFunctions from PRD §3.2 are created and accessible (+ `RequestBuyBottle` from PRD §14.2)
+  - [x] `Remotes.luau` uses `WaitForChild` with a timeout on client side (in case of race); errors clearly if timeout exceeded
+  - [x] No two systems create the same remote independently
 
 **Deps:** T-01
 
@@ -155,12 +155,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/assets/Localization/GameStrings.csv`
 - **Output:** A valid CSV file. When imported into Studio, `LocalizationService:GetTranslatorForPlayerAsync()` can resolve every key listed in PRD §21 for both `id` and `en` locales.
 - **DoD:**
-  - [ ] CSV is valid (no missing commas, no unclosed quotes)
-  - [ ] All 30 `GHOST_{ID}_NAME` keys present
-  - [ ] All 30 `GHOST_{ID}_LORE` keys present with non-empty placeholder text in both languages
-  - [ ] All 6 zone keys, 6 quest keys, 5 rank keys, all UI/error/tutorial keys present
-  - [ ] Importing CSV into Studio produces no validation errors
-  - [ ] `translator:FormatByKey("UI_BUTTON_SCAN")` returns `"Deteksi"` for Indonesian player
+  - [x] CSV is valid (no missing commas, no unclosed quotes)
+  - [x] All 30 `GHOST_{ID}_NAME` keys present
+  - [x] All 30 `GHOST_{ID}_LORE` keys present with non-empty placeholder text in both languages
+  - [x] All 6 zone keys, 6 quest keys, 5 rank keys, all UI/error/tutorial keys present
+  - [x] Importing CSV into Studio produces no validation errors
+  - [x] `translator:FormatByKey("UI_BUTTON_SCAN")` returns `"Deteksi"` for Indonesian player
 
 **Deps:** T-01
 

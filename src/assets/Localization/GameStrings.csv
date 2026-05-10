@@ -1,0 +1,141 @@
+Key,id,en
+UI_BUTTON_SCAN,Deteksi,Scan
+UI_BUTTON_COMPENDIUM,Ensiklopedia,Compendium
+UI_BUTTON_SHOP,Toko,Shop
+UI_LABEL_ZONE,Zona:,Zone:
+UI_LABEL_PLAYERS,Pemain,Players
+UI_LABEL_SHARDS,Pecahan Roh,Spirit Shards
+UI_LABEL_BOTTLES,Botol,Bottles
+UI_LABEL_LEVEL,Level,Level
+UI_FILTER_ALL,Semua,All
+UI_FILTER_CAPTURED,Tertangkap,Captured
+UI_FILTER_UNCAPTURED,Belum Ditangkap,Uncaptured
+UI_COMPENDIUM_CAUGHT,"Ditangkap: {count}x","Caught: {count}x"
+UI_COMPENDIUM_FIRST,"Pertama kali: {date}","First caught: {date}"
+UI_COMPENDIUM_UNKNOWN,???,???
+UI_TUTORIAL_SKIP,Lewati,Skip
+UI_LABEL_XP,XP,XP
+UI_LABEL_RANK,Pangkat,Rank
+UI_SHOP_TAB_BOTTLES,Botol,Bottles
+UI_SHOP_TAB_COSMETICS,Kosmetik,Cosmetics
+UI_SHOP_TAB_BATTLEPASS,Season Pass,Season Pass
+UI_SHOP_TAB_BOOSTS,Boost,Boosts
+UI_SHOP_BUY,Beli,Buy
+UI_SHOP_OWNED,Dimiliki,Owned
+UI_SHOP_FREE,Gratis,Free
+UI_MINIMAP_LABEL,Peta,Map
+UI_PLAYERS_COUNT,"{count} Pemain","{count} Players"
+GHOST_POCONG_NAME,Pocong,Pocong
+GHOST_KUNTILANAK_NAME,Kuntilanak,Kuntilanak
+GHOST_WEWEGOMBEL_NAME,Wewe Gombel,Wewe Gombel
+GHOST_BANASPATI_NAME,Banaspati,Banaspati
+GHOST_SUNDELBOLONG_NAME,Sundel Bolong,Sundel Bolong
+GHOST_TOYOL_NAME,Toyol,Toyol
+GHOST_TUYUL_NAME,Tuyul,Tuyul
+GHOST_LEAKWEAK_NAME,Leak,Leak
+GHOST_GENDERUWOJR_NAME,Genderuwo Jr.,Genderuwo Jr.
+GHOST_JENGLOT_NAME,Jenglot,Jenglot
+GHOST_RANGDA_NAME,Rangda,Rangda
+GHOST_ORANGBUNIAN_NAME,Orang Bunian,Orang Bunian
+GHOST_HANTURAYA_NAME,Hantu Raya,Hantu Raya
+GHOST_BABINGEPET_NAME,Babi Ngepet,Babi Ngepet
+GHOST_PALASIK_NAME,Palasik,Palasik
+GHOST_PENANGGALAN_NAME,Penanggalan,Penanggalan
+GHOST_ASWANGMILD_NAME,Aswang,Aswang
+GHOST_MANANANGGALHALF_NAME,Manananggal,Manananggal
+GHOST_KRASUE_NAME,Kra-Sue,Kra-Sue
+GHOST_PHIPOP_NAME,Phi Pop,Phi Pop
+GHOST_NYIBLORONG_NAME,Nyi Blorong,Nyi Blorong
+GHOST_BATARAKALA_NAME,Batara Kala,Batara Kala
+GHOST_RANGDATRUE_NAME,Rangda Sejati,True Rangda
+GHOST_MAHISASURA_NAME,Mahisasura,Mahisasura
+GHOST_LEYAK_NAME,Leyak,Leyak
+GHOST_SANTETSPECTER_NAME,Hantu Santet,Santet Specter
+GHOST_HANTUKOPEK_NAME,Hantu Kopek,Hantu Kopek
+GHOST_NYIROROKIDUL_NAME,Nyi Roro Kidul,Nyi Roro Kidul
+GHOST_DEWIDURGA_NAME,Dewi Durga,Dewi Durga
+GHOST_BATAGARUSHADOW_NAME,Bayangan Batara Guru,Shadow of Batara Guru
+GHOST_POCONG_LORE,"Arwah orang yang belum dibuka tali pocongnya, bergentayangan mencari kebebasan.","The spirit of the deceased whose shroud binding was never untied, wandering in search of freedom."
+GHOST_KUNTILANAK_LORE,"Hantu wanita berambut panjang yang menangisi nasibnya di bawah pohon besar saat malam tiba.","A long-haired female spirit who weeps beneath great trees each night, mourning her tragic fate."
+GHOST_WEWEGOMBEL_LORE,"Nenek tua berwajah mengerikan yang menculik anak-anak nakal untuk dijadikan teman sepinya.","A terrifying old witch who kidnaps misbehaving children to keep as companions in her loneliness."
+GHOST_BANASPATI_LORE,"Api merah berbentuk bola yang melayang di kegelapan malam, jelmaan roh jahat yang haus energi.","A red floating fireball drifting through the darkness — the manifestation of a malevolent energy-hungry spirit."
+GHOST_SUNDELBOLONG_LORE,"Wanita cantik berpakaian putih dengan lubang di punggungnya, korban kejahatan yang menuntut balas.","A beautiful woman in white with a hollow in her back — a victim of violence who now seeks revenge."
+GHOST_TOYOL_LORE,"Makhluk kecil jelmaan janin yang dipelihara dukun untuk mencuri harta. Gesit dan susah ditangkap.","A tiny spirit resembling an unborn child, raised by shamans to steal wealth. Nimble and hard to catch."
+GHOST_TUYUL_LORE,"Mirip Toyol namun lebih lincah. Tuyul adalah pencuri kecil yang terkenal karena kegesitannya.","Similar to Toyol but even more agile. The Tuyul is a famous little thief known for its incredible speed."
+GHOST_LEAKWEAK_LORE,"Kepala terbang dari Bali yang masih dalam tahap belajar bertransformasi. Belum sepenuhnya menguasai ilmunya.","A flying head from Bali still learning the arts of transformation. Its powers are not yet fully mastered."
+GHOST_GENDERUWOJR_LORE,"Anak bungsu dari klan Genderuwo — besar dan kuat tapi masih kikuk dalam mengejar mangsanya.","The youngest of the Genderuwo clan — large and powerful, but still clumsy when chasing prey."
+GHOST_JENGLOT_LORE,"Makhluk misterius berbentuk boneka kecil berambut panjang yang konon bertahan hidup dengan meminum darah.","A mysterious doll-like creature with long hair, said to survive by drinking blood offered by its keeper."
+GHOST_RANGDA_LORE,"Ratu iblis dari Bali yang menguasai sihir hitam paling gelap. Memimpin pasukan leyak yang haus darah.","The demon queen of Bali, master of the darkest black magic. Commander of a bloodthirsty leyak army."
+GHOST_ORANGBUNIAN_LORE,"Makhluk halus yang menyerupai manusia sempurna, hidup di alam gaib yang berdampingan dengan dunia kita.","Invisible beings who perfectly resemble humans, inhabiting a spirit realm that exists alongside our own world."
+GHOST_HANTURAYA_LORE,"Roh pembantu yang amat kuat, dulunya dikendalikan dukun. Kini telah bebas dan menyerupai manusia yang ditemuinya.","A powerful familiar spirit once bound to a shaman's will. Now free, it mimics the humans it encounters."
+GHOST_BABINGEPET_LORE,"Manusia yang berubah menjadi babi hitam akibat perjanjian dengan iblis demi mendapatkan kekayaan berlimpah.","A human transformed into a black pig through a pact with evil spirits in exchange for great wealth."
+GHOST_PALASIK_LORE,"Kepala terbang dari Minangkabau yang lebih cepat dan lebih lapar dari Leak. Gerakannya sulit diprediksi.","A flying head from Minangkabau — faster and hungrier than the Leak. Its movements are difficult to predict."
+GHOST_PENANGGALAN_LORE,"Kepala seorang wanita dengan organ dalam yang bergelantungan di bawahnya, terbang di malam hari mencari mangsa.","A woman's severed head with dangling entrails that flies through the night in relentless search of prey."
+GHOST_ASWANGMILD_LORE,"Makhluk berkaki empat dari Filipina yang bersembunyi di balik pepohonan. Menyerang dengan tiba-tiba dari tempat tersembunyi.","A four-legged predator from the Philippines that hides behind trees, launching sudden ambushes from the shadows."
+GHOST_MANANANGGALHALF_LORE,"Wanita yang terbelah di bagian pinggang saat malam tiba. Bagian atasnya terbang mencari darah mangsa.","A woman who splits at the waist when night falls. Her upper half takes flight in search of blood."
+GHOST_KRASUE_LORE,"Kepala bercahaya dari Thailand yang melayang anggun dengan usus bergelantungan di bawahnya. Berbahaya meski tampak elegan.","A glowing head from Thailand that hovers gracefully with its entrails hanging beneath. Dangerous despite its elegance."
+GHOST_PHIPOP_LORE,"Roh jahat dari Thailand yang mampu merasuki benda-benda di sekitarnya. Kehadirannya membuat lingkungan tampak hidup.","A malevolent Thai spirit capable of possessing nearby objects, making the environment around it appear eerily alive."
+GHOST_NYIBLORONG_LORE,"Ular sakti penjaga harta karun Nyi Roro Kidul yang berwujud setengah wanita setengah ular raksasa.","The sacred serpent guardian of Nyi Roro Kidul's treasure — half woman, half giant snake of immeasurable power."
+GHOST_BATARAKALA_LORE,"Dewa waktu dan kematian dalam mitologi Jawa. Ia melahap segala sesuatu yang ada di hadapannya tanpa ampun.","The Javanese god of time and death. He devours everything that stands before him without mercy or hesitation."
+GHOST_RANGDATRUE_LORE,"Wujud sejati Rangda dalam kekuatan penuh. Tidak ada yang bisa menghentikannya saat memanggil pasukan leyak.","Rangda's true form at full power. Nothing can stop her once she begins summoning her leyak forces."
+GHOST_MAHISASURA_LORE,"Raksasa berbentuk banteng dari mitologi Hindu-Jawa yang dikenal karena kekuatan dan keberinasannya yang luar biasa.","A bull-formed giant from Hindu-Javanese mythology renowned for his extraordinary strength and devastating fury."
+GHOST_LEYAK_LORE,"Wujud transformasi sempurna dari ilmu hitam Bali. Leyak sejati adalah yang paling ditakuti di seluruh kepulauan.","The perfected transformation form of Balinese black magic. A true Leyak is the most feared being in the archipelago."
+GHOST_SANTETSPECTER_LORE,"Hantu hasil ritual santet yang tak kasat mata. Hanya bisa dirasakan kehadirannya melalui jejak partikel yang ditinggalkannya.","A spirit born from black magic rituals, invisible to the naked eye. Its presence is revealed only by the particle trail it leaves."
+GHOST_HANTUKOPEK_LORE,"Penampakan mendadak yang muncul dari dinding dan langit-langit tanpa peringatan. Sulit ditangkap karena selalu berpindah tempat.","A sudden apparition that bursts from walls and ceilings without warning. Hard to catch as it constantly shifts location."
+GHOST_NYIROROKIDUL_LORE,"Ratu Pantai Selatan yang maha kuasa. Penguasa seluruh lautan dan roh-roh air di seantero Nusantara.","The all-powerful Queen of the South Sea. Sovereign of all oceans and water spirits throughout the archipelago."
+GHOST_DEWIDURGA_LORE,"Manifestasi gelap sang Dewi Durga yang berkuasa atas kematian, penyakit, dan kutukan tanpa batas waktu.","The dark manifestation of Dewi Durga, sovereign of death, disease, and eternal curses beyond all measure."
+GHOST_BATAGARUSHADOW_LORE,"Bayangan Batara Guru yang muncul ketika terlalu banyak roh dikumpulkan dalam satu tempat. Kehadirannya mengguncang seluruh dunia.","The shadow of Batara Guru himself, manifesting when too many spirits are gathered in one place. His presence shakes the entire world."
+ZONE_KUBURAN_NAME,Kuburan,Graveyard
+ZONE_KAMPUNGTUA_NAME,Kampung Tua,Old Village
+ZONE_HUTANBAMBU_NAME,Hutan Bambu,Bamboo Forest
+ZONE_PANTAISEPI_NAME,Pantai Sepi,Lonely Shore
+ZONE_KUBURANCINA_NAME,Kuburan Cina,Chinese Cemetery
+ZONE_SAWAHHAUNTED_NAME,Sawah Angker,Haunted Rice Field
+ZONE_HUB_NAME,Pulau Tengah,Central Island
+QUEST_DAILY_CAPTURE3COMMON,Tangkap 3 hantu biasa,Capture 3 common ghosts
+QUEST_DAILY_FIND10SHARDS,Temukan 10 Pecahan Roh,Find 10 Spirit Shards
+QUEST_DAILY_VISIT3ZONES,Kunjungi 3 zona berbeda,Visit 3 different zones
+QUEST_WEEKLY_CAPTURE1RARE,Tangkap 1 hantu langka,Capture 1 rare ghost
+QUEST_WEEKLY_GROUPCAPTURE,"Tangkap hantu bersama teman","Capture a ghost near friends"
+QUEST_WEEKLY_KUBURANCINA,Tangkap hantu di Kuburan Cina,Capture ghost in Chinese Cemetery
+RANK_PEMULA_TITLE,Pemburu Pemula,Rookie Hunter
+RANK_JAGOAN_TITLE,Pemburu Jagoan,Skilled Hunter
+RANK_PARANORMAL_TITLE,Paranormal Sejati,True Paranormal
+RANK_DUKUN_TITLE,Dukun Handal,Expert Shaman
+RANK_LEGENDA_TITLE,Legenda Paranormal,Paranormal Legend
+ERR_NEED_TEAM,Butuh minimal 2 pemain untuk menangkap hantu ini!,Need at least 2 players to capture this spirit!
+ERR_NO_BOTTLES,Botol habis!,No bottles left!
+ERR_TOO_FAR,Terlalu jauh!,Too far away!
+ERR_SCAN_COOLDOWN,Deteksi sedang diisi ulang...,Scan is recharging...
+ERR_GHOST_BUSY,Hantu ini sedang ditangkap pemain lain.,This spirit is already being captured by another player.
+ERR_RATE_LIMITED,Terlalu cepat! Coba lagi sebentar.,Too fast! Try again in a moment.
+ERR_INSUFFICIENT_SHARDS,Pecahan Roh tidak cukup!,Not enough Spirit Shards!
+ERR_DECOY,Itu hanya jelmaan! Cari yang asli.,That was a decoy! Find the real one.
+ERR_INVENTORY_FULL,Tas botol penuh!,Bottle bag is full!
+NOTIFY_CAPTURE_SUCCESS,Hantu tertangkap!,Spirit captured!
+NOTIFY_CAPTURE_FAIL,Hantu kabur!,Spirit escaped!
+NOTIFY_LEVELUP,"Naik level! Level {level}","Level up! Level {level}"
+NOTIFY_QUEST_DONE,Misi selesai!,Quest complete!
+NOTIFY_MYTHIC_SPAWN,Hantu Legendaris telah muncul!,A Legendary Spirit has appeared!
+NOTIFY_MILESTONE_AURA,Aura Mistis terbuka!,Mistis Aura unlocked!
+NOTIFY_MILESTONE_TITLE,Gelar Kolektor Hantu terbuka!,Title — Ghost Collector unlocked!
+NOTIFY_MILESTONE_KRISTAL,Botol Kristal terbuka!,Crystal Bottle unlocked!
+NOTIFY_DAILY_RESET,"Misi harian diperbarui. +{shards} Pecahan Roh!","Daily quests refreshed. +{shards} Spirit Shards!"
+TUT_STEP0,Hei Pemburu! Selamat datang. Ikuti aku!,Hey Hunter! Welcome. Follow me!
+TUT_STEP1,Tekan Deteksi untuk merasakan kehadiran hantu.,Press Scan to sense nearby spirits.
+TUT_STEP2,"Lihat! Ada jejak hantu di sana. Waspada!","Look! A spirit trace over there. Stay alert!"
+TUT_STEP3,Pocong terlihat! Lempar botolmu untuk menangkapnya!,A Pocong appeared! Throw your bottle to catch it!
+TUT_STEP4,Bagus! Sekarang cek Ensiklopediamu.,Nice! Now check your Compendium.
+TUT_STEP5,"Masih banyak pulau lain untuk dijelajahi. Ada hantu langka di luar sana! Selamat berburu!","More islands await. Rare spirits are out there! Happy hunting!"
+BOTTLE_BIASA_NAME,Botol Biasa,Basic Bottle
+BOTTLE_KACABIRU_NAME,Botol Kaca Biru,Blue Glass Bottle
+BOTTLE_EMAS_NAME,Botol Emas,Golden Bottle
+BOTTLE_KRISTAL_NAME,Botol Kristal,Crystal Bottle
+BOTTLE_RETAK_NAME,Botol Retak,Cracked Bottle
+RARITY_COMMON,Biasa,Common
+RARITY_RARE,Langka,Rare
+RARITY_EPIC,Epik,Epic
+RARITY_MYTHIC,Legendaris,Mythic
+BEHAVIOR_WANDERER,Pengembara,Wanderer
+BEHAVIOR_HUNTER,Pemburu,Hunter
+BEHAVIOR_TRICKSTER,Penipu,Trickster
