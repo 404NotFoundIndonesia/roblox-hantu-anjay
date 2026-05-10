@@ -485,19 +485,21 @@ src/
 
 ### 14.3 Data Persistence
 
-Roblox DataStore v2:
-- Key: `player_{userId}_v1`
-- Stores: level, XP, compendium flags, shard balance, quest progress
-- Auto-save: every 60 seconds + on leave
+**ProfileService** (`alreadypro/profileservice`) — session-locking DataStore wrapper:
+- Profile key: `Player_{userId}`
+- Stores: level, XP, compendium flags (table of 30 booleans), shard balance, quest progress
+- Session lock prevents data loss on server crash / double-save
+- Auto-save handled by ProfileService internally; manual save on critical events (capture, purchase)
 
 ### 14.4 Dependencies (wally.toml)
 
 Already configured:
-- `evaera/promise` — async DataStore ops
+- `evaera/promise` — async ops (DataStore, capture flow)
 - `sleitnick/signal` — event system
 - `sleitnick/component` — entity-component for ghosts
 - `flamenco687/maid` — cleanup
 - `osyrisrblx/t` — runtime type checking
+- `alreadypro/profileservice` *(server-only)* — session-locked player data persistence
 
 ---
 
