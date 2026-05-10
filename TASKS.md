@@ -176,12 +176,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/PlayerDataManager.luau`
 - **Output:** A server module that loads player data on join, persists it on leave, and exposes a clean API for all other server systems to read/write player data.
 - **DoD:**
-  - [ ] New player gets the default profile template exactly (level=1, xp=0, shards=50, BotolBiasa×3)
-  - [ ] Returning player gets their previously saved data (verified by leaving and rejoining)
-  - [ ] `OnLoaded` callback fires after profile is ready — no system accesses data before this
-  - [ ] Session lock prevents simultaneous writes (ProfileService built-in — verify it kicks in when two servers serve same player)
-  - [ ] Server does not crash on DataStore failure; logs warning instead
-  - [ ] `GetData` returns `nil` gracefully if called before profile loaded
+  - [x] New player gets the default profile template exactly (level=1, xp=0, shards=50, BotolBiasa×3)
+  - [x] Returning player gets their previously saved data (verified by leaving and rejoining)
+  - [x] `OnLoaded` callback fires after profile is ready — no system accesses data before this
+  - [x] Session lock prevents simultaneous writes (ProfileService built-in — verify it kicks in when two servers serve same player)
+  - [x] Server does not crash on DataStore failure; logs warning instead
+  - [x] `GetData` returns `nil` gracefully if called before profile loaded
 
 **Deps:** T-02, T-03, T-09
 
