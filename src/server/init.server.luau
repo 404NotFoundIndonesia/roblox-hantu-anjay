@@ -27,5 +27,10 @@ GhostSpawnManager.Init()
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 GhostAI.InitDetection()
 
--- TODO (T-47): initialise remaining systems (CaptureSession, QuestManager,
--- EconomyManager) in dependency order.
+-- 6. CaptureSession — registers RemoteFunction handlers; must run after
+--    PlayerDataManager, GhostSpawnManager, and GhostAI are all initialised.
+local CaptureSession = require(ServerScriptService.Server.systems.CaptureSession)
+CaptureSession.Init()
+
+-- TODO (T-47): initialise remaining systems (QuestManager, EconomyManager)
+-- in dependency order.

@@ -307,18 +307,18 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/CaptureSession.luau`
 - **Output:** Full end-to-end capture flow works. Capture and fail both correctly clean up ghost and trigger respawn.
 - **DoD:**
-  - [ ] `RequestCapture` rejects if player is >25 studs from ghost
-  - [ ] `RequestCapture` rejects if ghost is not in `"Triggered"` state
-  - [ ] `RequestCapture` rejects if player has 0 of the chosen bottle
-  - [ ] Only one player can be in capture session per ghost instance at a time
-  - [ ] 30s timeout auto-fails and cleans up correctly
-  - [ ] Catch rate check uses server-side `math.random()` — never client-provided value
-  - [ ] VIP Hunter gamepass XP multiplier (1.1×) applied correctly
-  - [ ] XP Boost multiplier (1.5×) applied when `xpBoostExpiry > os.time()`
-  - [ ] First capture of a ghost type gives `FIRST_CAPTURE_BONUS_MULTIPLIER = 3` bonus
-  - [ ] BotolKristal does not decrement on use (unlimited = true)
-  - [ ] `GhostSpawnManager.OnCaptureOrEscape` called in both success and fail paths
-  - [ ] Milestone check runs after every successful compendium update
+  - [x] `RequestCapture` rejects if player is >25 studs from ghost
+  - [x] `RequestCapture` rejects if ghost is not in `"Triggered"` state
+  - [x] `RequestCapture` rejects if player has 0 of the chosen bottle
+  - [x] Only one player can be in capture session per ghost instance at a time
+  - [x] 30s timeout auto-fails and cleans up correctly
+  - [x] Catch rate check uses server-side `math.random()` — never client-provided value
+  - [x] VIP Hunter gamepass XP multiplier (1.1×) applied correctly
+  - [x] XP Boost multiplier (1.5×) applied when `xpBoostExpiry > os.time()`
+  - [x] First capture of a ghost type gives `FIRST_CAPTURE_BONUS_MULTIPLIER = 3` bonus
+  - [x] BotolKristal does not decrement on use (unlimited = true)
+  - [x] `GhostSpawnManager.OnCaptureOrEscape` called in both success and fail paths
+  - [x] Milestone check runs after every successful compendium update
 
 **Deps:** T-03, T-06, T-11, T-13, T-17
 
@@ -336,14 +336,14 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/CaptureSession.luau`
 - **Output:** Server correctly validates all 6 mini-game input types and returns accurate resistance deltas.
 - **DoD:**
-  - [ ] MantraTap: wrong symbol returns `resistanceDelta = 0`; correct returns `2`
-  - [ ] MantraTap: sequence cannot be skipped by submitting step index out of order
-  - [ ] BottleAim: resistance reduces at 3 per second of hold; stops when ghost is at 0
-  - [ ] RhythmChant: hit window is exactly ±0.15s; outside returns 0
-  - [ ] SignalTriangulate: full reduction within ±15°; zero beyond ±45°
-  - [ ] ShadowChase: body contact resets current mini-game resistance correctly
-  - [ ] TeamSurround: requires all positions filled simultaneously for ≥3s; partial fill does not complete
-  - [ ] None of these validators trust client-reported `resistanceDelta` — all computed server-side
+  - [x] MantraTap: wrong symbol returns `resistanceDelta = 0`; correct returns `2`
+  - [x] MantraTap: sequence cannot be skipped by submitting step index out of order
+  - [x] BottleAim: resistance reduces at 3 per second of hold; stops when ghost is at 0
+  - [x] RhythmChant: hit window is exactly ±0.15s; outside returns 0
+  - [x] SignalTriangulate: full reduction within ±15°; zero beyond ±45°
+  - [x] ShadowChase: body contact resets current mini-game resistance correctly
+  - [x] TeamSurround: requires all positions filled simultaneously for ≥3s; partial fill does not complete
+  - [x] None of these validators trust client-reported `resistanceDelta` — all computed server-side
 
 **Deps:** T-18
 
@@ -355,12 +355,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/CaptureSession.luau` or `src/server/systems/ProgressionManager.luau`
 - **Output:** XP awards correctly accumulate and trigger level-ups, including rank transitions.
 - **DoD:**
-  - [ ] XP from `Constants.XP_PER_RARITY` applied correctly per rarity
-  - [ ] `FIRST_CAPTURE_BONUS_MULTIPLIER` applied only on first capture of that ghost type
-  - [ ] Level-up triggers at correct XP thresholds from `XPTable`
-  - [ ] Multi-level-up works in a single XP grant
-  - [ ] `LevelUp` RemoteEvent fires with correct `rank` string key (e.g. `"RANK_PEMULA_TITLE"`)
-  - [ ] `XPUpdated` RemoteEvent fires after every XP change (even without level-up)
+  - [x] XP from `Constants.XP_PER_RARITY` applied correctly per rarity
+  - [x] `FIRST_CAPTURE_BONUS_MULTIPLIER` applied only on first capture of that ghost type
+  - [x] Level-up triggers at correct XP thresholds from `XPTable`
+  - [x] Multi-level-up works in a single XP grant
+  - [x] `LevelUp` RemoteEvent fires with correct `rank` string key (e.g. `"RANK_PEMULA_TITLE"`)
+  - [x] `XPUpdated` RemoteEvent fires after every XP change (even without level-up)
 
 **Deps:** T-03, T-11, T-18
 
@@ -372,12 +372,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/PlayerDataManager.luau` or `src/server/systems/CaptureSession.luau`
 - **Output:** At 10, 20, and 30 captured ghosts, the player receives their milestone reward exactly once.
 - **DoD:**
-  - [ ] Milestone fires only once per player (flag prevents re-trigger on same or future sessions)
-  - [ ] At 10 captured: `milestones.aura_mistis` set to `true`
-  - [ ] At 20 captured: `milestones.title_kolektor` set to `true`
-  - [ ] At 30 captured: `milestones.botol_kristal` set to `true` AND `data.bottles.BotolKristal` is set
-  - [ ] Client receives notification event with milestone info
-  - [ ] Milestone persists across sessions (saved in ProfileService)
+  - [x] Milestone fires only once per player (flag prevents re-trigger on same or future sessions)
+  - [x] At 10 captured: `milestones.aura_mistis` set to `true`
+  - [x] At 20 captured: `milestones.title_kolektor` set to `true`
+  - [x] At 30 captured: `milestones.botol_kristal` set to `true` AND `data.bottles.BotolKristal` is set
+  - [x] Client receives notification event with milestone info
+  - [x] Milestone persists across sessions (saved in ProfileService)
 
 **Deps:** T-11, T-18
 
