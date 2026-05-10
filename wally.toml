@@ -11,3 +11,6 @@ Component = "sleitnick/component@2.4.8"
 Maid      = "flamenco687/maid@3.2.2"
 t         = "osyrisrblx/t@3.1.1"
 TestEZ    = "roblox/testez@0.4.1"
+
+[server-dependencies]
+ProfileService = "alreadypro/profileservice@1.0.4"
