@@ -729,12 +729,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/AudioController.luau`
 - **Output:** Atmospheric audio that matches the zone and ghost proximity.
 - **DoD:**
-  - [ ] Ambient sound changes within 1s of entering a new zone with audible crossfade
-  - [ ] Tension drone audibly increases as player walks toward a ghost
-  - [ ] Tension drone at full volume (0.6) when within 10 studs of ghost
-  - [ ] Tension drone silent when no ghost is within 50 studs
-  - [ ] Tension updates every 0.5s (not every Heartbeat)
-  - [ ] Hub island has no ambient sound
+  - [x] Ambient sound changes within 1s of entering a new zone with audible crossfade
+  - [x] Tension drone audibly increases as player walks toward a ghost
+  - [x] Tension drone at full volume (0.6) when within 10 studs of ghost
+  - [x] Tension drone silent when no ghost is within 50 studs
+  - [x] Tension updates every 0.5s (not every Heartbeat)
+  - [x] Hub island has no ambient sound
 
 **Deps:** T-27, T-28
 
@@ -746,11 +746,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/AudioController.luau`
 - **Output:** Ghost sounds play at ghost location when triggered. UI sounds play on relevant events.
 - **DoD:**
-  - [ ] Signature sound plays at ghost model position (spatial audio) on `"Triggered"` state
-  - [ ] Signature sound stops when ghost despawns
-  - [ ] All 5 UI SFX play at correct moments
-  - [ ] `playUI` does not error if called with unknown key (silent fail + warn)
-  - [ ] Multiple ghosts triggering simultaneously each play their own sound independently
+  - [x] Signature sound plays at ghost model position (spatial audio) on `"Triggered"` state
+  - [x] Signature sound stops when ghost despawns
+  - [x] All 5 UI SFX play at correct moments
+  - [x] `playUI` does not error if called with unknown key (silent fail + warn)
+  - [x] Multiple ghosts triggering simultaneously each play their own sound independently
 
 **Deps:** T-41
 
