@@ -11,7 +11,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local IS_SERVER = RunService:IsServer()
 local WAIT_TIMEOUT = 15 -- seconds client waits before erroring
 
--- Names of all RemoteEvents (server → client, one-way)
+-- Names of all RemoteEvents (server → client, one-way, except ZoneChangedToServer)
 local REMOTE_EVENT_NAMES: { string } = {
 	"GhostSpawned",
 	"GhostDespawned",
@@ -27,6 +27,7 @@ local REMOTE_EVENT_NAMES: { string } = {
 	"QuestCompleted",
 	"LevelUp",
 	"ZoneChanged",
+	"ZoneChangedToServer", -- client → server; used by ZoneDetector for quest tracking
 	"TutorialStep",
 	"CompanionSet",
 }

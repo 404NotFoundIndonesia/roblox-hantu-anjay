@@ -84,6 +84,7 @@ export type PlayerProfile = {
 	tutorialDone: boolean,
 	milestones: { [string]: boolean }, -- milestone key → unlocked
 	xpBoostExpiry: number, -- os.time() when XP boost expires (0 = none)
+	purchaseHistory: { [string]: boolean }, -- receiptId string → processed
 }
 
 return {}

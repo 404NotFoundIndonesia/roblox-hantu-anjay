@@ -29,6 +29,7 @@ local PROFILE_TEMPLATE: { [string]: any } = {
 	tutorialDone = false,
 	milestones = {},
 	xpBoostExpiry = 0,
+	purchaseHistory = {},
 }
 
 local profileStore = ProfileService.GetProfileStore(PROFILE_STORE_NAME, PROFILE_TEMPLATE)

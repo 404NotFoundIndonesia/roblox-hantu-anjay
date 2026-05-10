@@ -14,6 +14,7 @@ local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local GhostSpawnManager = require(ServerScriptService.Server.systems.GhostSpawnManager)
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
+local QuestManager = require(ServerScriptService.Server.systems.QuestManager)
 
 type PlayerProfile = Types.PlayerProfile
 
@@ -74,6 +75,7 @@ local RHYTHM_BPM = 120
 local SURROUND_RADIUS = 8
 local SURROUND_POSITIONS = 3
 local SURROUND_HOLD_TIME = 3 -- seconds all positions must be held simultaneously
+local GROUP_CAPTURE_RADIUS = 40 -- studs; other players within this range count for GroupCapture quest
 
 -- ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -456,6 +458,25 @@ resolveCapture = function(instanceId: string, reason: string)
 		compRemote:FireClient(player, { ghostId = ghostId, entry = data.compendium[ghostId] })
 
 		checkMilestones(player, data)
+
+		-- Quest tracking: GhostCaptured + GroupCapture
+		local capturePos = getEntryPosition(ghostEntry :: any)
+		QuestManager.Signals.GhostCaptured:Fire(player, { rarity = ghostEntry.def.rarity, zoneId = ghostEntry.zoneId })
+		if capturePos ~= nil then
+			local nearbyCount = 0
+			for _, otherPlayer in Players:GetPlayers() do
+				if otherPlayer == player then
+					continue
+				end
+				local otherPos = getPlayerPosition(otherPlayer)
+				if otherPos ~= nil and (otherPos - capturePos).Magnitude <= GROUP_CAPTURE_RADIUS then
+					nearbyCount += 1
+				end
+			end
+			if nearbyCount >= 3 then
+				QuestManager.Signals.GroupCapture:Fire(player)
+			end
+		end
 
 		GhostSpawnManager.SetState(instanceId, "Captured")
 	else

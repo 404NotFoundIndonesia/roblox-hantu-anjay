@@ -27,10 +27,17 @@ GhostSpawnManager.Init()
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 GhostAI.InitDetection()
 
--- 6. CaptureSession — registers RemoteFunction handlers; must run after
---    PlayerDataManager, GhostSpawnManager, and GhostAI are all initialised.
+-- 6. EconomyManager — ProcessReceipt + gamepass checks + bottle shop.
+--    Must run before QuestManager (AddShards used by quest rewards).
+local EconomyManager = require(ServerScriptService.Server.systems.EconomyManager)
+EconomyManager.Init()
+
+-- 7. QuestManager — signal connections + WIB reset + OnLoaded reset hook.
+--    Must run before CaptureSession.Init() so Signals exist before any capture fires.
+local QuestManager = require(ServerScriptService.Server.systems.QuestManager)
+QuestManager.Init()
+
+-- 8. CaptureSession — registers RemoteFunction handlers; must run after
+--    PlayerDataManager, GhostSpawnManager, GhostAI, and QuestManager are initialised.
 local CaptureSession = require(ServerScriptService.Server.systems.CaptureSession)
 CaptureSession.Init()
-
--- TODO (T-47): initialise remaining systems (QuestManager, EconomyManager)
--- in dependency order.

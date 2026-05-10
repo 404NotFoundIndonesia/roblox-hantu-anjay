@@ -393,11 +393,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/EconomyManager.luau`
 - **Output:** Shard balance is safely managed server-side. Client always gets an accurate display via `ShardsUpdated`.
 - **DoD:**
-  - [ ] `AddShards` correctly updates balance and fires `ShardsUpdated` RemoteEvent
-  - [ ] `SpendShards` returns `false` and does NOT modify balance when insufficient
-  - [ ] `SpendShards` returns `true` and deducts correctly when sufficient
-  - [ ] `GetShards` reads without modifying
-  - [ ] No path where a negative shard balance is possible
+  - [x] `AddShards` correctly updates balance and fires `ShardsUpdated` RemoteEvent
+  - [x] `SpendShards` returns `false` and does NOT modify balance when insufficient
+  - [x] `SpendShards` returns `true` and deducts correctly when sufficient
+  - [x] `GetShards` reads without modifying
+  - [x] No path where a negative shard balance is possible
 
 **Deps:** T-09, T-11
 
@@ -409,12 +409,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/EconomyManager.luau`
 - **Output:** Shard pack purchases grant shards reliably (no double-grant). Gamepasses are detected on join. Gamepass effects are applied throughout the relevant systems.
 - **DoD:**
-  - [ ] `ProcessReceipt` grants shards only once per receipt ID (idempotent)
-  - [ ] `ProcessReceipt` returns `NotProcessedYet` if player is not in server (they'll get it on next join)
-  - [ ] All 3 gamepasses checked on player join; results cached in `data.gamepasses`
-  - [ ] Auto-Shard tick fires every 30s and adds 1 shard per tick
-  - [ ] `ApplyXPBoost` sets `data.xpBoostExpiry = os.time() + duration`
-  - [ ] XP Boost active when `os.time() < xpBoostExpiry` — verified in T-18 CaptureSession
+  - [x] `ProcessReceipt` grants shards only once per receipt ID (idempotent)
+  - [x] `ProcessReceipt` returns `NotProcessedYet` if player is not in server (they'll get it on next join)
+  - [x] All 3 gamepasses checked on player join; results cached in `data.gamepasses`
+  - [x] Auto-Shard tick fires every 30s and adds 1 shard per tick
+  - [x] `ApplyXPBoost` sets `data.xpBoostExpiry = os.time() + duration`
+  - [x] XP Boost active when `os.time() < xpBoostExpiry` — verified in T-18 CaptureSession
 
 **Deps:** T-22
 
@@ -426,10 +426,10 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/EconomyManager.luau`, register in `src/server/init.server.luau`
 - **Output:** Players can buy bottles in-game using shards; balance and inventory update immediately.
 - **DoD:**
-  - [ ] `RequestBuyBottle` rejects invalid `bottleId` (e.g. BotolKristal is not purchasable with shards)
-  - [ ] Deduction and bottle grant are atomic — no partial state if error occurs
-  - [ ] Capacity limit enforced; returns `{ ok = false, error = "FULL" }` if over limit
-  - [ ] Both `BottlesUpdated` and `ShardsUpdated` fire after successful purchase
+  - [x] `RequestBuyBottle` rejects invalid `bottleId` (e.g. BotolKristal is not purchasable with shards)
+  - [x] Deduction and bottle grant are atomic — no partial state if error occurs
+  - [x] Capacity limit enforced; returns `{ ok = false, error = "FULL" }` if over limit
+  - [x] Both `BottlesUpdated` and `ShardsUpdated` fire after successful purchase
 
 **Deps:** T-22, T-23
 
@@ -441,14 +441,14 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/QuestManager.luau`
 - **Output:** Quests track correctly, reset on schedule, and reward players on completion.
 - **DoD:**
-  - [ ] Daily quests reset correctly after WIB midnight (test by manually setting `lastDailyReset` to yesterday)
-  - [ ] Weekly quests reset on Monday WIB
-  - [ ] Daily login shards (+5) awarded on first login of each day
-  - [ ] `GhostCaptured` signal increments rarity-filtered quests only for matching rarity
-  - [ ] Zone filter works: `weekly_kuburancina` only increments for captures in `KuburanCina`
-  - [ ] `GroupCapture` quest increments when ≥3 other players are within 40 studs of capture
-  - [ ] Quest does not increment past `target` (clamp at target)
-  - [ ] Rewards are granted exactly once per quest per cycle
+  - [x] Daily quests reset correctly after WIB midnight (test by manually setting `lastDailyReset` to yesterday)
+  - [x] Weekly quests reset on Monday WIB
+  - [x] Daily login shards (+5) awarded on first login of each day
+  - [x] `GhostCaptured` signal increments rarity-filtered quests only for matching rarity
+  - [x] Zone filter works: `weekly_kuburancina` only increments for captures in `KuburanCina`
+  - [x] `GroupCapture` quest increments when ≥3 other players are within 40 studs of capture
+  - [x] Quest does not increment past `target` (clamp at target)
+  - [x] Rewards are granted exactly once per quest per cycle
 
 **Deps:** T-07, T-09, T-11, T-22
 
