@@ -464,11 +464,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/LocalizationBridge.luau`
 - **Output:** Any UI script can call `LocalizationBridge.get("UI_BUTTON_SCAN")` and receive the correctly localized string.
 - **DoD:**
-  - [ ] Returns correct Indonesian string for `id` locale
-  - [ ] Returns correct English string for `en` locale
-  - [ ] Falls back to raw key string (not empty string or error) if key is missing from CSV
-  - [ ] Parametric keys (e.g. `{count}`, `{level}`, `{date}`) resolve correctly when `params` table is passed
-  - [ ] Init does not block the rest of the client for more than 3s
+  - [x] Returns correct Indonesian string for `id` locale
+  - [x] Returns correct English string for `en` locale
+  - [x] Falls back to raw key string (not empty string or error) if key is missing from CSV
+  - [x] Parametric keys (e.g. `{count}`, `{level}`, `{date}`) resolve correctly when `params` table is passed
+  - [x] Init does not block the rest of the client for more than 3s
 
 **Deps:** T-09, T-10
 
@@ -480,11 +480,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/UIManager.luau`
 - **Output:** Centralized UI routing. Any system calls `UIManager.open("Compendium")` and the compendium screen opens while any other modal closes.
 - **DoD:**
-  - [ ] Platform detection works correctly on mobile emulator (TouchEnabled), PC, and gamepad-only
-  - [ ] Opening Compendium while Shop is open closes Shop first
-  - [ ] HUD remains visible regardless of which modal is open
-  - [ ] `UIManager.isOpen` returns accurate boolean
-  - [ ] All ScreenGuis have `DeviceSafeInsets` applied
+  - [x] Platform detection works correctly on mobile emulator (TouchEnabled), PC, and gamepad-only
+  - [x] Opening Compendium while Shop is open closes Shop first
+  - [x] HUD remains visible regardless of which modal is open
+  - [x] `UIManager.isOpen` returns accurate boolean
+  - [x] All ScreenGuis have `DeviceSafeInsets` applied
 
 **Deps:** T-26
 
@@ -496,11 +496,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/ZoneDetector.luau`
 - **Output:** Zone changes are detected within 0.25s of the player entering a new zone. HUD zone label updates. Server quest tracking receives zone visit events.
 - **DoD:**
-  - [ ] Zone detection fires within 0.25s of entering a zone boundary
-  - [ ] No false-positive fires when player stays in same zone
-  - [ ] Correctly returns to `nil` zone when player is in Hub or between islands
-  - [ ] `ZoneChangedRemote:FireServer` called on each zone change (not on null transitions)
-  - [ ] Does not fire on every Heartbeat — throttled to 0.25s intervals
+  - [x] Zone detection fires within 0.25s of entering a zone boundary
+  - [x] No false-positive fires when player stays in same zone
+  - [x] Correctly returns to `nil` zone when player is in Hub or between islands
+  - [x] `ZoneChangedRemote:FireServer` called on each zone change (not on null transitions)
+  - [x] Does not fire on every Heartbeat — throttled to 0.25s intervals
 
 **Deps:** T-05, T-08, T-09, T-27
 
