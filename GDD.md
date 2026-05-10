@@ -14,13 +14,13 @@
 > *"Tangkap semua hantu legendaris ASEAN — jadi pemburu paranormal paling keren!"*  
 > *"Catch every legendary ASEAN spirit — become the ultimate paranormal hunter!"*
 
-**One-sentence pitch:** Explore haunted floating voxel islands, capture legendary Indonesian & ASEAN spirits in magical bottles, complete mini-games, and fill your ghost compendium before your rivals do.
+**One-sentence pitch:** Roam a haunted open world of floating voxel islands, capture legendary Indonesian & ASEAN spirits in magical bottles, and fill your ghost compendium before your rivals do.
 
 **Core fantasy:** Player feels like a fearless paranormal hunter armed with ancient knowledge, outwitting legendary spirits that would terrify ordinary people.
 
 **Why addictive:**
 - Pokémon-style collection loop — "gotta catch 'em all" pull
-- Short session design — one island run ~5–10 min
+- No barrier to play — spawn and go, ghosts are already out there
 - Social rivalry — friends see each other's compendium progress
 - Surprise & discovery — rare ghost spawn is unpredictable
 - Escalating difficulty — capturing a Kuntilanak is easy; a Leak is brutal
@@ -30,19 +30,18 @@
 ## 2. Core Game Loop
 
 ```
-LOBBY
-  └─► Choose Island Seed (random 3 options)
-        └─► Explore Island (2–5 min)
-              ├─► Find Ghost Traces (footprints, cold spots, sounds)
-              ├─► Trigger Ghost Encounter
-              │     └─► Play Mini-Game → Capture / Fail
-              ├─► Collect Bonus Items (spirit shards, bait)
-              └─► Extract or Stay
-                    ├─► Extract → Rewards → Lobby
-                    └─► Stay → Harder ghosts spawn
+SPAWN INTO OPEN WORLD
+  └─► Explore floating islands freely
+        ├─► Spot Ghost Traces (footprints, cold spots, sounds)
+        ├─► Ghost appears → Trigger Encounter
+        │     └─► Play Mini-Game → Capture / Fail
+        │           ├─► Capture → added to Compendium → XP
+        │           └─► Fail → ghost escapes, respawns elsewhere later
+        ├─► Collect Spirit Shards (scattered world items)
+        └─► (loop — no extraction, no timer, just explore)
 ```
 
-**Session length target:** 5–15 min per run  
+**Session length:** play as long or short as you want — no forced end  
 **Progression target:** 50–80 hours to complete base compendium  
 
 ---
@@ -56,30 +55,32 @@ LOBBY
 - Night/twilight persistent lighting — eerie but readable
 - Fog layer between islands for atmosphere
 
-### 3.2 Floating Island Maps
+### 3.2 Open World — Floating Island Cluster
 
-Each run generates a **small random island cluster** (~150×150 studs play area):
+One **persistent shared map** per server. All 6 biome zones exist simultaneously as separate floating islands:
 
-| Zone | Description |
-|------|-------------|
-| **Graveyard** | Stone graves, dead trees, mossy blocks |
-| **Kampung Tua** | Old wooden village huts, hanging lanterns |
-| **Hutan Bambu** | Dense bamboo grid, tall grass blocks |
-| **Pantai Sepi** | Shore with tide blocks, dock ruins |
-| **Kuburan Cina** | Tiered grave structures, incense block effects |
-| **Sawah Haunted** | Rice paddy grid, scarecrow props |
+| Zone | Description | Ghost Affinity |
+|------|-------------|----------------|
+| **Kuburan** | Stone graves, dead trees, mossy blocks | Pocong, Jenglot, Santet Specter |
+| **Kampung Tua** | Old wooden village huts, hanging lanterns | Kuntilanak, Wewe Gombel, Genderuwo |
+| **Hutan Bambu** | Dense bamboo grid, tall grass blocks | Sundel Bolong, Orang Bunian, Aswang |
+| **Pantai Sepi** | Shore with tide blocks, dock ruins | Nyi Roro Kidul, Babi Ngepet, Penanggalan |
+| **Kuburan Cina** | Tiered grave structures, incense block effects | Toyol, Tuyul, Phi Pop |
+| **Sawah Haunted** | Rice paddy grid, scarecrow props | Banaspati, Leak, Palasik |
 
-Island generation:
-- Pick 1 biome theme
-- Procedurally tile modular block chunks (pre-built 16×16 chunks)
-- 3–5 islands connected by rope bridges or floating stone paths
-- One **Boss Island** unlocked after clearing normal islands in a run
+Map structure:
+- All 6 islands float in one sky space, connected by rope bridges + stone paths
+- Players spawn at central hub island (small safe area, no ghosts)
+- Total explorable area: ~600×600 studs
+- Built from pre-made 16×16 voxel chunks assembled at server start (one-time, not per-session)
+- Each biome has 3–5 **haunt points** where ghosts spawn and patrol
 
 ### 3.3 Verticality
 
 - Islands float at varying heights → vertical exploration
-- Wind currents (visual only, no gameplay) connect islands aesthetically
+- Wind currents (visual only) connect islands aesthetically
 - Jump pads disguised as ancient stone pillars
+- Higher islands = rarer ghost spawns
 
 ---
 
@@ -238,9 +239,9 @@ Solo players cannot capture mythic without a Botol Kristal + max resistance drai
 
 XP sources:
 - Capture ghost → XP by rarity
-- Complete run → bonus XP
 - First capture of spirit type → big XP bonus
 - Daily quest completion
+- Find spirit shards in the world
 
 ### 7.2 Compendium
 
@@ -251,7 +252,7 @@ XP sources:
   - Capture stats (how many times caught, first caught date)
   - Rarity badge
 - Completion milestones:
-  - 10/30 → Unlock island skin "Sawah Mistis"
+  - 10/30 → Unlock player aura "Mistis"
   - 20/30 → Unlock title "Kolektor Hantu"
   - 30/30 → Unlock Botol Kristal + exclusive cosmetic
 
@@ -259,13 +260,13 @@ XP sources:
 
 **Daily (resets 00:00 WIB / server time):**
 - Capture 3 Common ghosts
-- Complete 2 runs
 - Find 10 spirit shards
+- Explore 3 different biome zones
 
 **Weekly:**
 - Capture 1 Rare ghost
-- Complete a run with 3+ friends
-- Capture ghost in Kuburan Cina biome
+- Capture a ghost with 3+ friends nearby
+- Capture ghost in Kuburan Cina zone
 
 Rewards: Spirit Shards, XP, occasionally Robux-adjacent items (cosmetics only)
 
@@ -277,7 +278,7 @@ Rewards: Spirit Shards, XP, occasionally Robux-adjacent items (cosmetics only)
 
 | Currency | Name | Earned via |
 |----------|------|------------|
-| **Spirit Shards** (free) | Pecahan Roh | Runs, quests, daily login |
+| **Spirit Shards** (free) | Pecahan Roh | World exploration, quests, daily login |
 | **Robux** (paid) | Robux | Purchase |
 
 **No pay-to-win.** Robux only buys cosmetics and convenience.
@@ -287,7 +288,7 @@ Rewards: Spirit Shards, XP, occasionally Robux-adjacent items (cosmetics only)
 | Item | Price (R$) | Type |
 |------|-----------|------|
 | Hunter Outfit Pack | 149 | Cosmetic |
-| Island Theme Pack | 99 | Visual only |
+| World Atmosphere Pack | 99 | Visual only (sky, fog color) |
 | Ghost Trail Effect | 79 | Cosmetic |
 | XP Boost (1 day) | 49 | Convenience |
 | Extra Bottle Slot (+5) | 49 | Convenience |
@@ -299,19 +300,18 @@ Rewards: Spirit Shards, XP, occasionally Robux-adjacent items (cosmetics only)
 - Season = 30 days
 - 30 tiers, free track + premium track
 - Free track: Spirit Shards, XP boosts, 1 cosmetic
-- Premium track (R$399): exclusive ghost cosmetics, bottle skins, island skin, title
+- Premium track (R$399): exclusive ghost cosmetics, bottle skins, player aura, title
 - No gameplay-affecting rewards behind paywall
 
 ### 8.4 Developer Products
 
 - **Spirit Shard Packs:** 100 / 500 / 1500 shards (R$25 / R$99 / R$249)
-- **Run Revive:** spend shards to continue failed run (free currency only)
 
 ### 8.5 Gamepass
 
 | Gamepass | Price | Benefit |
 |----------|-------|---------|
-| VIP Hunter | R$299 | +10% XP, exclusive lobby, VIP badge |
+| VIP Hunter | R$299 | +10% XP, VIP badge, exclusive aura |
 | Extra Bottle Bag | R$149 | +10 bottle carrying capacity |
 | Auto-Shard Collector | R$199 | Shards auto-collected while exploring |
 
@@ -327,34 +327,26 @@ Rewards: Spirit Shards, XP, occasionally Robux-adjacent items (cosmetics only)
 - All mini-games use single-input mechanics (tap, hold, or directional)
 - HUD elements anchored to screen corners with safe area padding
 
-### 9.2 HUD (In-Run)
+### 9.2 HUD (Open World)
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ [HP ████░░] [🔦 Lantern 80%]         [⏱ 8:32]      │
-│                                       [Players: 3]  │
-│                                                      │
+│ [🔦 Lantern 80%]   [Zone: Kampung Tua] [Players: 3] │
+│                                                     │
 │                  [WORLD]                            │
-│                                                      │
-│ [🎒 Bottles: 3x Biasa]          [📍 Mini-map]       │
-│                    [🔍 SCAN]                         │
+│                                                     │
+│ [🎒 Bottles: 3x Biasa]          [📍 Mini-map]        │
+│ [📖 Compendium]  [🔍 SCAN]  [🛒 Shop]                │
 └─────────────────────────────────────────────────────┘
 ```
 
-- SCAN button: activates detection pulse (shows cold zones)
-- Mini-map: top-down view, ghost traces as question marks
-- Mobile: SCAN + action buttons in thumb reach zone
+- SCAN button: activates detection pulse (shows cold zones in radius)
+- Mini-map: top-down view of all 6 islands, ghost traces as question marks, players as dots
+- Zone label: shows current biome name as player walks between islands
+- Mobile: SCAN + Compendium + Shop buttons in thumb reach zone, bottom center
+- No timer — open world, play at own pace
 
-### 9.3 Lobby UI
-
-- Big colorful ghost compendium button (center)
-- Quick-play button (large, prominent)
-- Shop (top right)
-- Daily quests (bottom bar with notification dot)
-- Friends list (bottom left)
-- Season pass progress bar (top)
-
-### 9.4 Compendium UI
+### 9.3 Compendium UI
 
 - Grid layout, 5 columns
 - Locked slots show silhouette + rarity color border
@@ -430,21 +422,22 @@ Examples:
 
 ### 12.1 Server Structure
 
-- **Server size:** 8 players max per run server
-- **Lobby server:** separate, up to 50 players (social hub)
-- Party system: invite up to 4 friends → queue together
+- **Server size:** 50 players max per world server
+- No separate lobby — players spawn directly into the open world
+- Friends can join same server via Roblox friend join
 
 ### 12.2 Cooperation vs. Competition
 
-- **Cooperative:** Team mini-games (mythic captures), shared ghost detection
-- **Competitive:** Compendium leaderboard, first-capture bonus, speed run time
-- Ghost capture is **per-player** — same ghost can be caught by multiple players in one run (avoids griefing)
+- **Cooperative:** Team mini-games (mythic captures), shared ghost detection (SCAN pulse visible to all nearby)
+- **Competitive:** Compendium leaderboard, first-capture bonus
+- Ghost capture is **per-player** — same ghost can be caught by multiple players (avoids griefing)
+- Ghost respawns at a different haunt point after being captured or escaping
 
 ### 12.3 Social Features
 
-- Compendium share link → show friends which ghost you caught
+- Compendium visible to other players in world (tap player → see their compendium)
 - Ghost trading: **not in v1** (deferred — economy risk)
-- Lobby ghost display: your rarest captured ghost follows you in lobby
+- Rarest captured ghost follows you as a companion in world
 
 ---
 
@@ -453,14 +446,14 @@ Examples:
 Length: ~3 minutes, skippable after first completion.
 
 **Steps:**
-1. Spawn on Tutorial Island (always Kampung Tua)
-2. NPC guide (old ghost hunter) walks player through SCAN mechanic
+1. Spawn in open world, NPC guide (old ghost hunter) appears as chat bubble
+2. NPC walks player to nearest cold zone → explains SCAN mechanic
 3. Scripted Pocong encounter → Mantra Tap tutorial (slowed speed, forgiving)
-4. Capture success → compendium opens, first entry filled
-5. NPC explains daily quest
-6. Teleport to main lobby
+4. Capture success → compendium auto-opens, first entry fills with animation
+5. NPC points to mini-map, explains other islands exist
+6. Tutorial ends — player is already in the world, no teleport needed
 
-Tutorial ghost (Pocong) not counted in compendium — separate tutorial slot.
+Tutorial ghost (Pocong) counts as first compendium entry — instant reward feeling.
 
 ---
 
@@ -480,14 +473,15 @@ src/
 
 | System | Side | Notes |
 |--------|------|-------|
-| IslandGenerator | Server | Chunk-based procedural assembly |
-| GhostSpawnManager | Server | Rarity-weighted random spawn |
+| WorldBuilder | Server | Assembles 6 biome islands from chunks at server start (once) |
+| GhostSpawnManager | Server | Rarity-weighted spawn at haunt points, respawn on capture/escape |
 | CaptureSession | Server + Client | Mini-game state machine |
 | CompendiumData | Server (DataStore) | Per-player ghost collection |
 | QuestManager | Server | Daily/weekly reset via os.clock |
 | EconomyManager | Server | Shard transactions, anti-exploit |
 | LocalizationBridge | Client | Reads LocalizationTable |
 | UIManager | Client | Cross-platform layout switcher |
+| ZoneDetector | Client | Detects which biome player is in → updates HUD zone label |
 
 ### 14.3 Data Persistence
 
@@ -511,12 +505,12 @@ Already configured:
 
 ### v1.0 — Launch
 - 30 spirits (base roster)
-- 6 biomes
+- 6 biome zones in one open world
 - 5 mini-game types
 - Compendium
 - Battle Pass Season 1
 - ID + EN localization
-- Tutorial
+- Tutorial (in-world NPC guide)
 
 ### v1.1 — Season 2
 - 5 new spirits (Malaysia focus: Hantu Penanggal variants, Orang Minyak)
@@ -542,9 +536,9 @@ Already configured:
 | Mini-games too hard for kids | Difficulty sliders in settings; tutorial uses easiest variant |
 | Monetization flagged | All Robux = cosmetic; no loot boxes (direct purchase only) |
 | Ghost names culturally sensitive | Review with Indonesian community; keep lore respectful |
-| Server performance (voxel gen) | Pre-bake chunk templates; generate at run start not mid-game |
+| Server performance (voxel gen) | Pre-bake chunk templates; assemble once at server start, never again |
 | Cheating / exploit | Server-authoritative capture; EconomyManager validates all shard ops |
-| Low player retention | Daily quests + season pass create return loops; session ≤15 min reduces drop-off |
+| Low player retention | Daily quests + season pass create return loops; open-world means no loading friction |
 
 ---
 
