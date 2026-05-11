@@ -2,7 +2,7 @@
 
 return {
 	-- Server capacity
-	MAX_PLAYERS = 8,
+	MAX_PLAYERS = 50,
 
 	-- World layout
 	WORLD_ORIGIN = Vector3.new(0, 0, 0),

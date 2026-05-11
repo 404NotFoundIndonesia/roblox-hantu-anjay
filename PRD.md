@@ -174,7 +174,7 @@ export type QuestProgress = {
 
 ```luau
 return {
-  MAX_PLAYERS = 8,
+  MAX_PLAYERS = 50,
   WORLD_ORIGIN = Vector3.new(0, 0, 0),
   HUB_SPAWN = Vector3.new(0, 50, 0),
   CHUNK_SIZE = 16,

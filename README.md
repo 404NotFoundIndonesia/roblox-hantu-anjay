@@ -5,7 +5,7 @@
 Roam a haunted open world of floating voxel islands, capture legendary Indonesian & ASEAN spirits in magical bottles, and fill your ghost compendium before your rivals do.
 
 - **Platform:** Roblox
-- **Players:** 1–8 per server
+- **Players:** 1–50 per server
 - **Target:** Ages 10+
 
 ---
