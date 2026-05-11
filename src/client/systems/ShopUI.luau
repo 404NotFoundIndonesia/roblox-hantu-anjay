@@ -580,8 +580,8 @@ function ShopUI.Init()
 	UIManager.register("Shop", ShopUI)
 
 	-- Keep shard balance label up to date
-	;(Remotes["ShardsUpdated"] :: RemoteEvent).OnClientEvent:Connect(function(amount: number)
-		currentShards = amount
+	;(Remotes["ShardsUpdated"] :: RemoteEvent).OnClientEvent:Connect(function(data: { shards: number })
+		currentShards = data.shards
 		shardBalanceLabel.Text = tostring(currentShards) .. " " .. LocalizationBridge.get("UI_SHARDS_LABEL")
 	end)
 end

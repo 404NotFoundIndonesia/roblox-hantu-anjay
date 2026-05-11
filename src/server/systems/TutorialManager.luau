@@ -11,6 +11,7 @@ local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local Constants = require(ReplicatedStorage.Shared.Constants)
 local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
 local GhostSpawnManager = require(ServerScriptService.Server.systems.GhostSpawnManager)
+local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 
 -- ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -200,8 +201,12 @@ function TutorialManager.Init()
 			return { ok = true, coldZones = { coldZonePos } }
 		end
 
-		-- Non-tutorial or wrong step: return empty ok (full SCAN logic in T-47).
-		return { ok = true, coldZones = {} }
+		-- Non-tutorial (or wrong step): run real SCAN — return ghost positions within radius.
+		local char = player.Character
+		if char == nil then return { ok = true, coldZones = {} } end
+		local hrp = char:FindFirstChild("HumanoidRootPart") :: BasePart?
+		if hrp == nil then return { ok = true, coldZones = {} } end
+		return { ok = true, coldZones = GhostAI.GetNearbyGhostPositions(hrp.Position, Constants.SCAN_RADIUS) }
 	end
 
 	-- RequestSkipTutorial: set tutorialDone and clean up.

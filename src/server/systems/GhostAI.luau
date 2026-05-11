@@ -531,6 +531,18 @@ function GhostAI.TriggerNearbyGhost(player: Player, pos: Vector3)
 	end
 end
 
+-- Returns haunt positions of all ghost controllers within `radius` studs of `playerPos`.
+-- Used by TutorialManager to implement the SCAN pulse for non-tutorial players.
+function GhostAI.GetNearbyGhostPositions(playerPos: Vector3, radius: number): { Vector3 }
+	local result: { Vector3 } = {}
+	for _, ctrl in controllers do
+		if (ctrl.hauntPos - playerPos).Magnitude <= radius then
+			table.insert(result, ctrl.hauntPos)
+		end
+	end
+	return result
+end
+
 function GhostAI.Start(
 	instanceId: string,
 	def: GhostDef,
