@@ -766,12 +766,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/init.server.luau` or `src/server/systems/TutorialManager.luau`
 - **Output:** New players always go through the tutorial. Tutorial Pocong is always capturable on first throw.
 - **DoD:**
-  - [ ] Players with `tutorialDone = false` receive `TutorialStep` event on join
-  - [ ] Players with `tutorialDone = true` skip tutorial entirely
-  - [ ] Tutorial Pocong spawns at fixed position and cannot move
-  - [ ] Tutorial Pocong always succeeds on first bottle throw regardless of bottle type
-  - [ ] Tutorial Pocong counts as first Compendium entry for real (not a throwaway)
-  - [ ] `data.tutorialDone = true` saved after tutorial completes or is skipped
+  - [x] Players with `tutorialDone = false` receive `TutorialStep` event on join
+  - [x] Players with `tutorialDone = true` skip tutorial entirely
+  - [x] Tutorial Pocong spawns at fixed position and cannot move
+  - [x] Tutorial Pocong always succeeds on first bottle throw regardless of bottle type
+  - [x] Tutorial Pocong counts as first Compendium entry for real (not a throwaway)
+  - [x] `data.tutorialDone = true` saved after tutorial completes or is skipped
 
 **Deps:** T-11, T-13, T-18, T-09
 
@@ -783,13 +783,13 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/TutorialController.luau`
 - **Output:** New players experience a guided 3-minute tutorial that ends naturally in the open world.
 - **DoD:**
-  - [ ] Tutorial steps fire in correct sequence — server event advances steps
-  - [ ] NPC chat bubbles are positioned above the NPC model, not floating in screen space
-  - [ ] SCAN button pulse animation shows on step 1
-  - [ ] MantraTap tutorial runs at half speed (longer timer)
-  - [ ] Compendium auto-opens after capture success with animation
-  - [ ] Skip button visible from step 0; calling it ends tutorial immediately
-  - [ ] Tutorial does not restart on rejoin once `tutorialDone = true`
+  - [x] Tutorial steps fire in correct sequence — server event advances steps
+  - [x] NPC chat bubbles are positioned above the NPC model, not floating in screen space
+  - [x] SCAN button pulse animation shows on step 1
+  - [x] MantraTap tutorial runs at half speed (longer timer)
+  - [x] Compendium auto-opens after capture success with animation
+  - [x] Skip button visible from step 0; calling it ends tutorial immediately
+  - [x] Tutorial does not restart on rejoin once `tutorialDone = true`
 
 **Deps:** T-26, T-27, T-29, T-31, T-32, T-34, T-35, T-43
 

@@ -24,6 +24,7 @@ type ActiveEntry = {
 	state: string,
 	model: Model?,
 	isMythicEvent: boolean, -- BataraGuruShadow server-wide event; not counted toward cap
+	isTutorial: boolean,    -- scripted tutorial ghost; not counted toward cap, no AI
 	fakePart: BasePart?, -- position anchor for mythic event (no real HauntPoint in Hub)
 }
 
@@ -64,7 +65,7 @@ end
 local function countActive(): number
 	local n = 0
 	for _, entry in activeInstances do
-		if not entry.isMythicEvent then
+		if not entry.isMythicEvent and not entry.isTutorial then
 			n += 1
 		end
 	end
@@ -203,6 +204,7 @@ local function spawnGhostAt(
 		state = "Patrolling",
 		model = model,
 		isMythicEvent = isMythicEvent,
+		isTutorial = false,
 		fakePart = nil,
 	}
 	activeInstances[instanceId] = entry
@@ -391,6 +393,7 @@ local function startMythicEventLoop()
 				state = "Triggered", -- server-wide event: immediately active
 				model = model,
 				isMythicEvent = true,
+				isTutorial = false,
 				fakePart = fakePart,
 			}
 			activeInstances[instanceId] = entry
@@ -426,6 +429,65 @@ local function startMythicEventLoop()
 			end)
 		end
 	end)
+end
+
+-- ─── Tutorial spawn ───────────────────────────────────────────────────────────
+
+-- Spawns a scripted tutorial ghost at a fixed world position for a specific player.
+-- The ghost has no AI (no patrol, no auto-escape), resistance overridden to 1.
+-- Counts as a real ghost for the Compendium but NOT toward the ghost cap.
+-- Returns the instanceId, or nil if ghostId is invalid.
+function GhostSpawnManager.SpawnTutorial(ghostId: string, worldPos: Vector3, player: Player): string?
+	local def = GhostDefs[ghostId]
+	if def == nil then
+		warn("[GhostSpawnManager] SpawnTutorial: unknown ghostId", ghostId)
+		return nil
+	end
+
+	local instanceId = HttpService:GenerateGUID(false)
+
+	local model: Model? = nil
+	if ghostAssetsFolder then
+		local template = ghostAssetsFolder:FindFirstChild(def.modelName) :: Model?
+		if template then
+			local clone = template:Clone() :: Model
+			clone.Name = instanceId
+			clone:PivotTo(CFrame.new(worldPos))
+			clone.Parent = getGhostsFolder()
+			model = clone
+		end
+	end
+
+	local entry: ActiveEntry = {
+		def = def,
+		instanceId = instanceId,
+		ghostId = ghostId,
+		zoneId = "Hub",
+		hauntPointIndex = 0,
+		resistance = 1, -- always one hit
+		state = "Triggered", -- immediately capturable
+		model = model,
+		isMythicEvent = false,
+		isTutorial = true,
+		fakePart = nil,
+	}
+	activeInstances[instanceId] = entry
+
+	-- No GhostAI.Start — tutorial ghost is static; no patrol, no escape timer.
+
+	-- Notify only the specific player (tutorial is player-local).
+	local ghostsRemote = Remotes["GhostSpawned"] :: RemoteEvent
+	ghostsRemote:FireClient(player, {
+		instanceId = instanceId,
+		ghostId = ghostId,
+		zoneId = "Hub",
+		position = worldPos,
+		rarity = def.rarity,
+		behavior = def.behavior,
+		miniGame = def.miniGame,
+	})
+
+	return instanceId
 end
 
 -- ─── Init ─────────────────────────────────────────────────────────────────────

@@ -15,6 +15,7 @@ local GhostSpawnManager = require(ServerScriptService.Server.systems.GhostSpawnM
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
 local QuestManager = require(ServerScriptService.Server.systems.QuestManager)
+local TutorialManager = require(ServerScriptService.Server.systems.TutorialManager)
 
 type PlayerProfile = Types.PlayerProfile
 
@@ -151,8 +152,13 @@ end
 -- ─── T-19 · Mini-game validators ─────────────────────────────────────────────
 
 -- MantraTap: validate { step, symbol } in strict order. delta=2 correct, 0 wrong.
+-- Tutorial instances accept any tap as correct (forgiving mode, resistance=1 so one hit captures).
 local function validateMantraTap(session: ActiveSession, input: { [string]: any }): number
 	local state = session.miniGameState
+	if TutorialManager.IsTutorialInstance(session.instanceId) then
+		state.currentStep += 1
+		return 2
+	end
 	if state.symbols == nil then
 		return 0
 	end
@@ -437,10 +443,12 @@ resolveCapture = function(instanceId: string, reason: string)
 		bottlesRemote:FireClient(player, { bottles = data.bottles })
 	end
 
-	-- Catch rate check (server-authoritative; client never provides this value)
+	-- Catch rate check (server-authoritative; client never provides this value).
+	-- Tutorial instances always succeed when resistance reaches 0 (catchRate = 1.0 override).
+	local isTutorial = TutorialManager.IsTutorialInstance(instanceId)
 	local success = session.resistance <= 0
 		and bottleDef ~= nil
-		and math.random() <= bottleDef.catchRate
+		and (isTutorial or math.random() <= bottleDef.catchRate)
 
 	if success and ghostEntry ~= nil then
 		local ghostId = session.ghostId
@@ -492,6 +500,9 @@ resolveCapture = function(instanceId: string, reason: string)
 
 	PlayerDataManager.Save(player)
 	GhostSpawnManager.OnCaptureOrEscape(instanceId)
+
+	-- Notify TutorialManager so it can advance to step 5/6 on success.
+	TutorialManager.OnCaptureResult(player, instanceId, success)
 end
 
 -- ─── RequestCapture handler ───────────────────────────────────────────────────
@@ -572,6 +583,9 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 		local syms, cfg = makeMantraTapConfig(maxResistance)
 		miniGameState.symbols = syms
 		config = cfg
+		if TutorialManager.IsTutorialInstance(instanceId) then
+			config.timeLimit = (cfg.timeLimit :: number) * 2
+		end
 	elseif miniGame == "BottleAim" then
 		local origin = entryPos or Vector3.zero
 		config = { holdDuration = 2, ghostWorldPos = { X = origin.X, Y = origin.Y, Z = origin.Z } }
@@ -616,12 +630,19 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 	GhostSpawnManager.SetState(instanceId, "InCapture")
 	GhostAI.NotifyCaptureStart(instanceId)
 
-	-- Fire MiniGameStart to this player with full config
+	-- Notify TutorialManager that capture has begun (advances to step 4).
+	TutorialManager.OnCaptureStarted(player, instanceId)
+
+	-- Fire MiniGameStart to this player with full config.
+	-- Field is `miniGameType` (matches MiniGameController payload type).
 	local miniStartRemote = Remotes["MiniGameStart"] :: RemoteEvent
-	miniStartRemote:FireClient(player, { instanceId = instanceId, miniGame = miniGame, config = config })
+	miniStartRemote:FireClient(player, { instanceId = instanceId, miniGameType = miniGame, config = config })
 
 	-- 30s server-side timeout — auto-fails if session is still active
-	task.delay(Constants.CAPTURE_TIMEOUT, function()
+	local captureTimeout = if TutorialManager.IsTutorialInstance(instanceId)
+		then Constants.CAPTURE_TIMEOUT * 2
+		else Constants.CAPTURE_TIMEOUT
+	task.delay(captureTimeout, function()
 		if activeSessions[instanceId] ~= nil then
 			resolveCapture(instanceId, "Timeout")
 		end

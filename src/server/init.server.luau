@@ -41,3 +41,9 @@ QuestManager.Init()
 --    PlayerDataManager, GhostSpawnManager, GhostAI, and QuestManager are initialised.
 local CaptureSession = require(ServerScriptService.Server.systems.CaptureSession)
 CaptureSession.Init()
+
+-- 9. TutorialManager — must run after PlayerDataManager and CaptureSession so
+--    OnLoaded callbacks fire after all handlers are registered and RequestScan /
+--    RequestSkipTutorial OnServerInvoke are bound exactly once.
+local TutorialManager = require(ServerScriptService.Server.systems.TutorialManager)
+TutorialManager.Init()
