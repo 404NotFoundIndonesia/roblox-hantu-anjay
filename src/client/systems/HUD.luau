@@ -49,6 +49,8 @@ local miniMapFrame: Frame
 local scanButton: TextButton
 local scanCooldownLabel: TextLabel
 local scanOnCooldown = false
+local lanternFill: Frame
+local lanternLbl: TextLabel
 
 -- Mini-map state
 local playerDots: { [number]: Frame } = {}
@@ -138,14 +140,14 @@ local function buildTopBar(parent: Frame, isMobile: boolean)
 	lanternContainer.Parent = topBar
 	addCorner(lanternContainer, 4)
 
-	local lanternFill = Instance.new("Frame") :: Frame
+	lanternFill = Instance.new("Frame") :: Frame
 	lanternFill.Name = "LanternFill"
-	lanternFill.Size = UDim2.fromScale(1, 1) -- static 100% placeholder
+	lanternFill.Size = UDim2.fromScale(1, 1)
 	lanternFill.BackgroundColor3 = C_LANTERN
 	lanternFill.Parent = lanternContainer
 	addCorner(lanternFill, 4)
 
-	local lanternLbl = newLabel(lanternContainer, "LanternLabel", "🏮 100%")
+	lanternLbl = newLabel(lanternContainer, "LanternLabel", "🏮 100%")
 	lanternLbl.Size = UDim2.fromScale(1, 1)
 	lanternLbl.TextColor3 = C_BG
 	lanternLbl.Font = Enum.Font.GothamBold
@@ -175,8 +177,6 @@ local function buildTopBar(parent: Frame, isMobile: boolean)
 	end)
 
 	_ = isMobile
-	_ = lanternFill
-	_ = lanternLbl
 end
 
 -- ─── T-29 · XP bar ────────────────────────────────────────────────────────────
@@ -546,8 +546,19 @@ end
 
 -- ─── Init + UIModule interface ────────────────────────────────────────────────
 
+local function handleLanternUpdated(level: number)
+	local pct = math.clamp(level / 100, 0, 1)
+	lanternFill.Size = UDim2.fromScale(pct, 1)
+	lanternFill.BackgroundColor3 = if pct > 0.3
+		then C_LANTERN
+		else Color3.fromRGB(200, 80, 50) -- red tint when low
+	lanternLbl.Text = "🏮 " .. tostring(math.floor(level)) .. "%"
+end
+
 function HUD.open()
-	if screenGui then screenGui.Enabled = true end
+	if screenGui then
+		screenGui.Enabled = true
+	end
 end
 
 function HUD.close()
@@ -606,6 +617,11 @@ function HUD.Init()
 		for _, pos in data.coldZones do
 			spawnColdZoneHighlight(pos)
 		end
+	end)
+
+	-- Lantern level updates from LanternManager
+	;(Remotes["LanternUpdated"] :: RemoteEvent).OnClientEvent:Connect(function(data: { level: number })
+		handleLanternUpdated(data.level)
 	end)
 
 	HUD.screenGui = screenGui

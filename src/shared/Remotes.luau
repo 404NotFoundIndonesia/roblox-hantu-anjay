@@ -30,6 +30,7 @@ local REMOTE_EVENT_NAMES: { string } = {
 	"ZoneChangedToServer", -- client → server; used by ZoneDetector for quest tracking
 	"TutorialStep",
 	"CompanionSet",
+	"LanternUpdated", -- server → client: { level: number } (0–100)
 }
 
 -- Names of all RemoteFunctions (client → server, awaits response)

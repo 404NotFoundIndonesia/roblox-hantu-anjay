@@ -54,7 +54,22 @@ safeInit("CaptureSession", CaptureSession.Init)
 local TutorialManager = require(ServerScriptService.Server.systems.TutorialManager)
 safeInit("TutorialManager", TutorialManager.Init)
 
--- 10. RequestViewCompendium — T-46. Pure data query; depends only on PlayerDataManager.
+-- 10. ShardManager — spawns SpiritShard Parts near haunt points.
+--     Depends on WorldBuilder (HauntPoints), GhostAI (ShardCollected signal),
+--     and EconomyManager (AddShards). WorldBuilder.Ready fires inside Init.
+local ShardManager = require(ServerScriptService.Server.systems.ShardManager)
+safeInit("ShardManager", ShardManager.Init)
+
+-- 11. LanternManager — server-authoritative lantern drain/recharge + ghost trigger.
+--     Depends on GhostAI (TriggerNearbyGhost) and Remotes (LanternUpdated).
+local LanternManager = require(ServerScriptService.Server.systems.LanternManager)
+safeInit("LanternManager", LanternManager.Init)
+
+-- 12. JumpPadManager — wires JumpPad Parts in Workspace.World after WorldBuilder.Ready.
+local JumpPadManager = require(ServerScriptService.Server.systems.JumpPadManager)
+safeInit("JumpPadManager", JumpPadManager.Init)
+
+-- 13. RequestViewCompendium — T-46. Pure data query; depends only on PlayerDataManager.
 safeInit("RequestViewCompendium", function()
 	local rf = Remotes["RequestViewCompendium"] :: RemoteFunction
 	rf.OnServerInvoke = function(
@@ -92,3 +107,6 @@ _ = EconomyManager
 _ = QuestManager
 _ = CaptureSession
 _ = TutorialManager
+_ = ShardManager
+_ = LanternManager
+_ = JumpPadManager

@@ -508,9 +508,28 @@ end
 
 local GhostAI = {}
 
--- Fired by ShardSystem (T-??) when a player collects a SpiritShard.
+-- Fired by ShardManager when a player collects a SpiritShard.
 -- GhostAI listens to this to trigger nearby ghosts.
 GhostAI.ShardCollected = Signal.new() :: any
+
+-- Triggers the nearest Patrolling ghost to `pos` on behalf of `player`.
+-- Called by LanternManager when lantern drains to 0.
+function GhostAI.TriggerNearbyGhost(player: Player, pos: Vector3)
+	if not playerInBiomeZone(player) then return end
+	local nearest: string? = nil
+	local nearestDist = math.huge
+	for id, ctrl in controllers do
+		if ctrl.state ~= "Patrolling" then continue end
+		local d = (ctrl.hauntPos - pos).Magnitude
+		if d < nearestDist then
+			nearestDist = d
+			nearest = id
+		end
+	end
+	if nearest ~= nil then
+		triggerGhost(nearest, player)
+	end
+end
 
 function GhostAI.Start(
 	instanceId: string,

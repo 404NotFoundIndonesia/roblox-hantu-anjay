@@ -80,6 +80,20 @@ return {
 	AUTO_SHARD_TICK = 30, -- seconds between auto-shard grants
 	AUTO_SHARD_AMOUNT = 1,
 
+	-- Spirit Shard world items (ShardManager)
+	SHARD_PICKUP_AMOUNT = 2,        -- shards granted per SpiritShard collected
+	SHARD_RESPAWN_TIME = 120,       -- seconds before a collected shard respawns
+	SHARDS_PER_HAUNT_POINT = 2,     -- SpiritShard Parts spawned near each haunt point
+
+	-- Lantern (LanternManager)
+	LANTERN_DRAIN_PER_TICK = 2,     -- lantern units lost per tick while in a biome zone
+	LANTERN_RECHARGE_PER_TICK = 1,  -- lantern units gained per tick at hub
+	LANTERN_TICK_INTERVAL = 5,      -- seconds between lantern level updates
+
+	-- Jump pads (JumpPadManager)
+	JUMP_PAD_FORCE = 120,           -- studs/s upward impulse applied on touch
+	JUMP_PAD_COOLDOWN = 1,          -- seconds before same player can use a JumpPad again
+
 	-- Remote rate limits (seconds)
 	RATE_LIMIT_SCAN = 8,
 	RATE_LIMIT_CAPTURE = 3,

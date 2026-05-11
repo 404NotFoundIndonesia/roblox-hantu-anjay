@@ -906,4 +906,60 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 
 ---
 
-*Last updated: 2026-05-10 · JihadPixel*
+## Phase 14 — Missing Systems
+
+---
+
+### T-51 · SpiritShard World Item System
+
+- **Description:** Implement `src/server/systems/ShardManager.luau`. After `WorldBuilder.Ready`, spawn `SHARDS_PER_HAUNT_POINT` SpiritShard Parts (Neon cyan sphere, `CanCollide=false`, `Anchored=true`) near each haunt point in a ring offset. Wire `.Touched` per Part: validate player, enforce 0.5s rate-limit per player, grant `SHARD_PICKUP_AMOUNT` shards via `EconomyManager.AddShards`, save profile, fire `GhostAI.ShardCollected(player, pos)` (triggers nearest ghost + increments quest), hide Part then respawn after `SHARD_RESPAWN_TIME` seconds.
+- **Files:** `src/server/systems/ShardManager.luau`, `src/shared/Constants.luau` (new shard constants), `src/server/init.server.luau`
+- **Output:** Spirit Shards appear in all biome zones, can be collected, trigger ghost AI, and complete the "Find 10 shards" daily quest.
+- **DoD:**
+  - [x] Shards spawn near every haunt point across all 6 zones after WorldBuilder.Ready
+  - [x] Collection grants `SHARD_PICKUP_AMOUNT` shards and fires `ShardsUpdated` to client
+  - [x] `GhostAI.ShardCollected` fires on collection, triggering nearest Patrolling ghost
+  - [x] Quest progress increments for "ShardCollected" quests
+  - [x] Shard hides after collection and respawns after `SHARD_RESPAWN_TIME`
+  - [x] Rate-limit prevents double-grant on same touch frame
+  - [x] Rate-limit table cleaned on `PlayerRemoving`
+
+**Deps:** T-12, T-17, T-22, T-47
+
+---
+
+### T-52 · Lantern System
+
+- **Description:** Implement `src/server/systems/LanternManager.luau`. Server-authoritative lantern level (0–100) per player. Drains `LANTERN_DRAIN_PER_TICK` every `LANTERN_TICK_INTERVAL` seconds while player is inside a biome zone AABB; recharges `LANTERN_RECHARGE_PER_TICK` at hub. Fires `LanternUpdated` RemoteEvent `{ level }` to client on change. When level hits 0, calls `GhostAI.TriggerNearbyGhost(player, pos)` (lantern-failure trigger from GDD §4.2); resets trigger flag when level recovers above 0. Add `TriggerNearbyGhost(player, pos)` public function to `GhostAI.luau`. Add `LanternUpdated` RemoteEvent to `Remotes.luau`. Wire `handleLanternUpdated(level)` in `HUD.luau` — updates fill bar width and label text; bar turns red below 30%.
+- **Files:** `src/server/systems/LanternManager.luau`, `src/server/systems/GhostAI.luau`, `src/shared/Remotes.luau`, `src/shared/Constants.luau`, `src/client/systems/HUD.luau`, `src/server/init.server.luau`
+- **Output:** Lantern bar in HUD depletes while exploring biome zones, recharges at hub, turns red when low, and triggers a ghost when fully drained.
+- **DoD:**
+  - [x] Lantern drains in biome zones and recharges at hub
+  - [x] `LanternUpdated` fires to client on each level change
+  - [x] HUD bar width and label text update correctly
+  - [x] Bar color changes to red below 30%
+  - [x] Ghost triggered exactly once per drain-to-zero event (not every tick at 0)
+  - [x] Trigger resets when lantern recovers so it can fire again next time
+
+**Deps:** T-17, T-29, T-47
+
+---
+
+### T-53 · JumpPad System
+
+- **Description:** Implement `src/server/systems/JumpPadManager.luau`. After `WorldBuilder.Ready`, scan `Workspace.World` descendants for BaseParts named `"JumpPad"`. Wire `.Touched` per pad: find player, enforce `JUMP_PAD_COOLDOWN` per player, apply `AssemblyLinearVelocity` to `HumanoidRootPart`. Launch vector: Part Attribute `"LaunchVector"` (Vector3) if set, otherwise `Vector3.new(0, JUMP_PAD_FORCE, 0)`. Studio setup: add BasePart named `"JumpPad"` inside any biome model, set `Anchored=true`, `CanCollide=true`; optionally add `LaunchVector` attribute for directional launch.
+- **Files:** `src/server/systems/JumpPadManager.luau`, `src/shared/Constants.luau`, `src/server/init.server.luau`
+- **Output:** Any Part named "JumpPad" in a biome model launches players upward (or in the direction of the `LaunchVector` attribute) on touch.
+- **DoD:**
+  - [x] Parts named "JumpPad" in Workspace.World receive Touched wiring after WorldBuilder.Ready
+  - [x] Player is launched with correct velocity on touch
+  - [x] `LaunchVector` attribute overrides default vertical launch
+  - [x] Per-player cooldown prevents repeated launches within `JUMP_PAD_COOLDOWN` seconds
+  - [x] No JumpPads in world logs informational message (not an error)
+  - [x] Rate-limit table cleaned on `PlayerRemoving`
+
+**Deps:** T-12, T-47
+
+---
+
+*Last updated: 2026-05-11 · JihadPixel*
