@@ -14,6 +14,7 @@ local WorldBuilder = require(ServerScriptService.Server.systems.WorldBuilder)
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 local EconomyManager = require(ServerScriptService.Server.systems.EconomyManager)
 local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
+local CaptureSession = require(ServerScriptService.Server.systems.CaptureSession)
 
 -- §22 Rule 8: per-player rate-limit prevents double-touch grants.
 local collectRateLimit: { [number]: number } = {}
@@ -61,8 +62,9 @@ local function connectShard(part: Part)
 			return
 		end
 
-		-- Grant shards; ShardsUpdated fires inside AddShards
+		-- Grant shards and XP (GDD §7.1: shard pickup is an XP source)
 		EconomyManager.AddShards(player, Constants.SHARD_PICKUP_AMOUNT)
+		CaptureSession.GrantXP(player, Constants.SHARD_XP_AMOUNT)
 		PlayerDataManager.Save(player)
 
 		-- Fire ShardCollected: triggers nearest ghost + increments shard quest
@@ -85,7 +87,7 @@ function ShardManager.Init()
 		local worldFolder = Workspace:FindFirstChild("World") :: Folder?
 		local shardParent: Instance = worldFolder or Workspace
 
-		for zoneId, hauntPoints in WorldBuilder.HauntPoints do
+		for _, hauntPoints in WorldBuilder.HauntPoints do
 			for _, hauntPoint in hauntPoints do
 				for i = 1, Constants.SHARDS_PER_HAUNT_POINT do
 					-- Distribute shards in a ring around the haunt point
@@ -100,7 +102,6 @@ function ShardManager.Init()
 					connectShard(part)
 				end
 			end
-			_ = zoneId
 		end
 
 		local zoneCount = 0

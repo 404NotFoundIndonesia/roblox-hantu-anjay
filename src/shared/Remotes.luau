@@ -38,11 +38,9 @@ local REMOTE_FUNCTION_NAMES: { string } = {
 	"RequestScan",
 	"RequestCapture",
 	"RequestMiniGameInput",
-	"RequestPurchaseShard",
-	"RequestEquipBottle",
 	"RequestViewCompendium",
 	"RequestSkipTutorial",
-	"RequestBuyBottle", -- added per PRD §14.2
+	"RequestBuyBottle",
 }
 
 -- Get or create the Remotes folder in ReplicatedStorage

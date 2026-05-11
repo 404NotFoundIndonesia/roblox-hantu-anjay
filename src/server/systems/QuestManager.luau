@@ -118,8 +118,12 @@ local function resetIfNeeded(player: Player, data: { [string]: any })
 	if (data.lastDailyReset :: number) < currentDaily then
 		questData.daily = {}
 		data.lastDailyReset = currentDaily
-		-- Daily login bonus
+		-- Daily login bonus: shards + 1 free BotolRetak (advertised in ShopUI)
 		EconomyManager.AddShards(player, Constants.SHARD_DAILY_LOGIN)
+		local bottles = data.bottles :: { [string]: number }
+		bottles["BotolRetak"] = (bottles["BotolRetak"] or 0) + 1
+		local bottlesRemote = Remotes["BottlesUpdated"] :: RemoteEvent
+		bottlesRemote:FireClient(player, { bottles = bottles })
 		dirty = true
 	end
 

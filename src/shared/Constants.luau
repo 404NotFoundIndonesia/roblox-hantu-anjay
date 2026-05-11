@@ -82,6 +82,7 @@ return {
 
 	-- Spirit Shard world items (ShardManager)
 	SHARD_PICKUP_AMOUNT = 2,        -- shards granted per SpiritShard collected
+	SHARD_XP_AMOUNT = 5,            -- XP granted per SpiritShard collected
 	SHARD_RESPAWN_TIME = 120,       -- seconds before a collected shard respawns
 	SHARDS_PER_HAUNT_POINT = 2,     -- SpiritShard Parts spawned near each haunt point
 

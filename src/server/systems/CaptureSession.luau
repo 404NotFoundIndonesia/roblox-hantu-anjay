@@ -743,6 +743,38 @@ end
 
 local CaptureSession = {}
 
+-- Grants a flat XP amount with VIP and XP Boost multipliers applied.
+-- Used by ShardManager for shard-pickup XP (GDD §7.1 XP source).
+function CaptureSession.GrantXP(player: Player, baseXP: number)
+	local data = PlayerDataManager.GetData(player)
+	if data == nil then return end
+
+	local mult = 1.0
+	if (data :: any).gamepasses[tostring(Constants.GAMEPASS_ID_VIP)] then
+		mult *= Constants.VIP_XP_MULTIPLIER
+	end
+	if os.time() < (data :: any).xpBoostExpiry then
+		mult *= Constants.XP_BOOST_MULTIPLIER
+	end
+
+	local gained = math.floor(baseXP * mult)
+	data.xp += gained
+
+	local xpRemote = Remotes["XPUpdated"] :: RemoteEvent
+	xpRemote:FireClient(player, { xp = data.xp, level = data.level, gained = gained })
+
+	local prevLevel = data.level
+	while data.level < 100 do
+		local threshold = XPTable[data.level + 1]
+		if threshold == nil or data.xp < threshold then break end
+		data.level += 1
+	end
+	if data.level > prevLevel then
+		local levelUpRemote = Remotes["LevelUp"] :: RemoteEvent
+		levelUpRemote:FireClient(player, { newLevel = data.level, rank = getRankKey(data.level) })
+	end
+end
+
 function CaptureSession.GetSession(instanceId: string): ActiveSession?
 	return activeSessions[instanceId]
 end
