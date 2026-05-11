@@ -61,8 +61,7 @@ return {
 
 	-- Quest reset (WIB = UTC+7)
 	UTC_OFFSET_WIB = 7 * 3600,
-	WEEKLY_RESET_DAY = 2, -- 2 = Monday in os.date %w (0=Sun, 1=Mon... actually 0=Sun so Monday=2 in some systems)
-	-- Note: os.date %w: 0=Sun, 1=Mon, 2=Tue... Use 1 for Monday.
+	WEEKLY_RESET_DAY = 2, -- Monday; os.date("*t").wday uses 1=Sun, 2=Mon, ..., 7=Sat
 
 	-- Mini-map
 	MINIMAP_UPDATE_RATE = 0.5, -- seconds

@@ -108,11 +108,11 @@ local PRODUCT_SHARD_GRANTS: { [number]: number } = {
 
 -- ─── T-24 · Bottle shop ───────────────────────────────────────────────────────
 
--- Shard cost per bottle. BotolBiasa (default) and BotolKristal (milestone) are not listed.
+-- Shard cost per bottle. BotolBiasa (default), BotolKristal (milestone),
+-- and BotolRetak (free daily) are intentionally excluded.
 local BOTTLE_SHARD_COSTS: { [string]: number } = {
 	BotolKacaBiru = 50,
 	BotolEmas = 120,
-	BotolRetak = 15,
 }
 
 -- Per-player rate-limit clock for RequestBuyBottle.
