@@ -843,11 +843,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/init.server.luau`
 - **Output:** All server systems start in the correct order. Server is fully operational before any player joins.
 - **DoD:**
-  - [ ] World is built before `Players.PlayerAdded` fires for the first player
-  - [ ] All systems initialize without error in a clean server start
-  - [ ] If one non-critical system fails to init (e.g. audio config), server continues running
-  - [ ] `ProcessReceipt` is assigned exactly once
-  - [ ] No system starts before its dependency system has completed init
+  - [x] World is built before `Players.PlayerAdded` fires for the first player
+  - [x] All systems initialize without error in a clean server start
+  - [x] If one non-critical system fails to init (e.g. audio config), server continues running
+  - [x] `ProcessReceipt` is assigned exactly once
+  - [x] No system starts before its dependency system has completed init
 
 **Deps:** T-09, T-11, T-12, T-13, T-18, T-19, T-20, T-21, T-22, T-23, T-24, T-25
 
@@ -859,12 +859,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/init.client.luau`
 - **Output:** All client systems start correctly. HUD visible within 2s of character spawn.
 - **DoD:**
-  - [ ] `LocalizationBridge` ready before any UI text is set
-  - [ ] `UIManager` platform detected before any UI layout is applied
-  - [ ] ZoneDetector only starts after `LocalPlayer.Character` is available
-  - [ ] HUD visible within 2s of character spawn
-  - [ ] Tutorial fires only after HUD is ready (so tutorial highlights have targets)
-  - [ ] No `require` error in output console
+  - [x] `LocalizationBridge` ready before any UI text is set
+  - [x] `UIManager` platform detected before any UI layout is applied
+  - [x] ZoneDetector only starts after `LocalPlayer.Character` is available
+  - [x] HUD visible within 2s of character spawn
+  - [x] Tutorial fires only after HUD is ready (so tutorial highlights have targets)
+  - [x] No `require` error in output console
 
 **Deps:** T-26, T-27, T-28, T-29, T-30, T-31, T-32, T-33, T-34, T-41, T-42, T-44, T-45
 

@@ -24,6 +24,15 @@ task.spawn(function()
 	end
 end)
 
+-- Yields (up to 3 s) until the translator is ready. Called by the client bootstrap
+-- before any UI system runs, so all initial UI text uses real localization.
+function LocalizationBridge.Init()
+	local deadline = os.clock() + 3
+	while translator == nil and os.clock() < deadline do
+		task.wait(0.05)
+	end
+end
+
 -- Returns a localized string for `key` with optional format parameters.
 -- `params` maps placeholder names to values, e.g. { count = 5, date = "01/01/2025" }.
 -- Falls back to the raw key on missing key, translator not ready, or pcall failure.
