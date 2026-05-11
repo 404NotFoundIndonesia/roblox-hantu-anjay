@@ -22,6 +22,7 @@ function EconomyManager.GetShards(player: Player): number
 	return data.shards
 end
 
+-- §22 Rule 5: AddShards/SpendShards are server-only; shard amounts never accepted from client.
 -- Adds `amount` shards and fires ShardsUpdated. Server-only — never trust client amount.
 function EconomyManager.AddShards(player: Player, amount: number)
 	local data = PlayerDataManager.GetData(player)
@@ -121,6 +122,7 @@ local function handleRequestBuyBottle(player: Player, args: { [string]: any }): 
 	local userId = player.UserId
 	local now = os.clock()
 
+	-- §22 Rule 8: minimum 2s gap between RequestBuyBottle calls per player.
 	if now - (buyBottleRateLimit[userId] or 0) < Constants.RATE_LIMIT_BUY_BOTTLE then
 		return { ok = false, error = "RATE_LIMITED" }
 	end
@@ -220,7 +222,7 @@ function EconomyManager.Init()
 		local receiptKey = tostring(info.PurchaseId)
 		local history = (data :: any).purchaseHistory :: { [string]: boolean }
 
-		-- Already processed — return granted to acknowledge without double-granting
+		-- §22 Rule 9: idempotency — duplicate receipt returns PurchaseGranted without re-granting.
 		if history[receiptKey] then
 			return Enum.ProductPurchaseDecision.PurchaseGranted
 		end

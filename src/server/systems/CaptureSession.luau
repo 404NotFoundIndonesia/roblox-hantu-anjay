@@ -170,7 +170,7 @@ local function validateMantraTap(session: ActiveSession, input: { [string]: any 
 		return 0
 	end
 	if step ~= state.currentStep then
-		return 0 -- sequence skip attempt rejected
+		return 0 -- §22 Rule 3: step-skipping rejected; client cannot advance out of order
 	end
 	local expected = (state.symbols :: { string })[step]
 	if expected ~= symbol then
@@ -446,6 +446,7 @@ resolveCapture = function(instanceId: string, reason: string)
 	end
 
 	-- Catch rate check (server-authoritative; client never provides this value).
+	-- §22 Rule 6: catch rate read from server-side BottleDefs; never sent to or trusted from client.
 	-- Tutorial instances always succeed when resistance reaches 0 (catchRate = 1.0 override).
 	local isTutorial = TutorialManager.IsTutorialInstance(instanceId)
 	local success = session.resistance <= 0
@@ -533,6 +534,7 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 	local userId = player.UserId
 	local now = os.clock()
 
+	-- §22 Rule 8: minimum 3s gap between RequestCapture calls per player.
 	if now - (captureRateLimit[userId] or 0) < Constants.RATE_LIMIT_CAPTURE then
 		return { ok = false, error = "RATE_LIMITED" }
 	end
@@ -553,6 +555,7 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 	if ghostEntry == nil then
 		return { ok = false, error = "NOT_FOUND" }
 	end
+	-- §22 Rule 2: ghost must be in Triggered state before capture can begin.
 	if ghostEntry.state ~= "Triggered" then
 		return { ok = false, error = "NOT_TRIGGERED" }
 	end
@@ -570,11 +573,12 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 		return { ok = false, error = "NO_BOTTLE" }
 	end
 	local bottleCount = data.bottles[bottleId] or 0
+	-- §22 Rule 2: bottle ownership validated server-side; client cannot forge inventory.
 	if not bottleDef.unlimited and bottleCount <= 0 then
 		return { ok = false, error = "NO_BOTTLE" }
 	end
 
-	-- Proximity check (skipped if ghost has no model yet)
+	-- §22 Rule 2: proximity validated server-side; client cannot teleport to ghost.
 	local entryPos = getEntryPosition(ghostEntry :: any)
 	local playerPos = getPlayerPosition(player)
 	if entryPos ~= nil and playerPos ~= nil then
@@ -656,7 +660,7 @@ local function handleRequestCapture(player: Player, args: { [string]: any }): { 
 	TutorialManager.OnCaptureStarted(player, instanceId)
 
 	-- Fire MiniGameStart to this player with full config.
-	-- Field is `miniGameType` (matches MiniGameController payload type).
+	-- §22 Rule 4: MiniGameStart payload carries config only — no resistance or catch rate value.
 	local miniStartRemote = Remotes["MiniGameStart"] :: RemoteEvent
 	miniStartRemote:FireClient(player, { instanceId = instanceId, miniGameType = miniGame, config = config })
 
@@ -684,6 +688,7 @@ local function handleRequestMiniGameInput(player: Player, args: { [string]: any 
 
 	local rateLimitKey = tostring(userId) .. "_" .. instanceId
 	local now = os.clock()
+	-- §22 Rule 8: minimum 0.1s gap between input calls per player per instance.
 	if now - (inputRateLimit[rateLimitKey] or 0) < Constants.RATE_LIMIT_MINIGAME_INPUT then
 		return { ok = false, error = "RATE_LIMITED" }
 	end

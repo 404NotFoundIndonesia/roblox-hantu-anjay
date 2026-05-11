@@ -31,6 +31,9 @@ local playerPocong: { [number]: string } = {}
 -- instanceId → userId (reverse map for capture hooks)
 local tutorialInstances: { [string]: number } = {}
 
+-- §22 Rule 8: per-player rate-limit clock for RequestScan (min 8s gap).
+local scanRateLimit: { [number]: number } = {}
+
 -- ─── Helpers ──────────────────────────────────────────────────────────────────
 
 local function fireTutorialStep(player: Player, step: number, extra: { [string]: any }?)
@@ -171,6 +174,14 @@ function TutorialManager.Init()
 	-- Non-tutorial players receive ok=false (RequestScan server logic is T-47).
 	;(Remotes["RequestScan"] :: RemoteFunction).OnServerInvoke = function(player: Player): { [string]: any }
 		local userId = player.UserId
+
+		-- §22 Rule 8: enforce minimum 8s gap between RequestScan calls.
+		local now = os.clock()
+		if now - (scanRateLimit[userId] or 0) < Constants.RATE_LIMIT_SCAN then
+			return { ok = false, error = "RATE_LIMITED" }
+		end
+		scanRateLimit[userId] = now
+
 		local step = playerStep[userId]
 
 		if step == 1 then
@@ -210,8 +221,9 @@ function TutorialManager.Init()
 		return { ok = true }
 	end
 
-	-- Clean up state when player leaves.
+	-- Clean up state when player leaves (prevents unbounded table growth).
 	Players.PlayerRemoving:Connect(function(player: Player)
+		scanRateLimit[player.UserId] = nil
 		cleanupPlayer(player)
 	end)
 end

@@ -219,7 +219,7 @@ local function spawnGhostAt(
 		end,
 	} :: GhostAI.GhostAICallbacks)
 
-	-- Notify all clients
+	-- §22 Rule 7: position is server-computed from haunt point; client receives it read-only.
 	local ghostsRemote = Remotes["GhostSpawned"] :: RemoteEvent
 	ghostsRemote:FireAllClients({
 		instanceId = instanceId,

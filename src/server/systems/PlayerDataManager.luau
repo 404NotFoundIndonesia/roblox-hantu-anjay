@@ -50,6 +50,10 @@ function PlayerDataManager.GetProfile(player: Player): Profile?
 	return activeProfiles[player.UserId]
 end
 
+-- §22 Rule 1: GetData is server-only; profile mutations only happen in server systems
+-- that call GetData then mutate synchronously before any yield.
+-- §22 Rule 10: ProfileService session-locks the profile to one server at a time;
+-- concurrent writes from a second server are prevented at the storage layer.
 -- Returns the mutable PlayerProfile data table, or nil if not yet loaded.
 -- Never write to the returned table from outside a single atomic operation;
 -- all writes must happen before the next task.wait() to stay consistent.

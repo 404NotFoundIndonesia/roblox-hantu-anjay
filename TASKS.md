@@ -880,11 +880,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/server/systems/CaptureSession.luau`, `src/server/systems/EconomyManager.luau`, `src/server/init.server.luau`
 - **Output:** Rate limiting prevents exploit-style rapid RemoteFunction invocations.
 - **DoD:**
-  - [ ] `RequestScan` second call within 8s returns `RATE_LIMITED`
-  - [ ] `RequestCapture` second call within 3s returns `RATE_LIMITED`
-  - [ ] `RequestMiniGameInput` call within 0.1s of previous returns `RATE_LIMITED`
-  - [ ] Rate limit tables are cleaned up when player leaves (no memory leak)
-  - [ ] Legitimate gameplay is not affected — limits are tight enough to block exploits but not normal play
+  - [x] `RequestScan` second call within 8s returns `RATE_LIMITED`
+  - [x] `RequestCapture` second call within 3s returns `RATE_LIMITED`
+  - [x] `RequestMiniGameInput` call within 0.1s of previous returns `RATE_LIMITED`
+  - [x] Rate limit tables are cleaned up when player leaves (no memory leak)
+  - [x] Legitimate gameplay is not affected — limits are tight enough to block exploits but not normal play
 
 **Deps:** T-18, T-22, T-47
 
@@ -896,11 +896,11 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** All server system files
 - **Output:** A review pass confirming all 10 anti-exploit rules from PRD §22 are implemented. Any gaps are fixed.
 - **DoD:**
-  - [ ] All 10 rules from PRD §22 verified with corresponding code locations documented (inline comment or separate note)
-  - [ ] No `RemoteEvent` carries resistance value or catch rate in payload
-  - [ ] No `RemoteFunction` trusts a numeric value from client for economy operations
-  - [ ] Step-skipping in MantraTap is impossible (tested by sending step=5 directly)
-  - [ ] Duplicate `ProcessReceipt` with same receipt ID grants product only once
+  - [x] All 10 rules from PRD §22 verified with corresponding code locations documented (inline comment or separate note)
+  - [x] No `RemoteEvent` carries resistance value or catch rate in payload
+  - [x] No `RemoteFunction` trusts a numeric value from client for economy operations
+  - [x] Step-skipping in MantraTap is impossible (tested by sending step=5 directly)
+  - [x] Duplicate `ProcessReceipt` with same receipt ID grants product only once
 
 **Deps:** T-47, T-49
 
