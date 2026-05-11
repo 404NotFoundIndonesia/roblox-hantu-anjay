@@ -805,12 +805,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** Server: `src/server/systems/CaptureSession.luau`. Client: `src/client/systems/CompanionController.luau`
 - **Output:** Player's rarest captured ghost visibly follows them as a companion.
 - **DoD:**
-  - [ ] Companion updates to the new ghost if a rarer one is captured
-  - [ ] Companion is 40% scale and visually distinct from world ghosts
-  - [ ] Companion has no collision (`CanCollide = false`, `CanTouch = false`)
-  - [ ] Companion follows smoothly without rubber-banding
-  - [ ] `CompanionSet` with `ghostId = nil` despawns companion (handles edge case)
-  - [ ] Companion is client-local — other players do not see it (or it is replicated but not interactable — decide and document)
+  - [x] Companion updates to the new ghost if a rarer one is captured
+  - [x] Companion is 40% scale and visually distinct from world ghosts
+  - [x] Companion has no collision (`CanCollide = false`, `CanTouch = false`)
+  - [x] Companion follows smoothly without rubber-banding
+  - [x] `CompanionSet` with `ghostId = nil` despawns companion (handles edge case)
+  - [x] Companion is client-local — other players do not see it (or it is replicated but not interactable — decide and document)
 
 **Deps:** T-09, T-18, T-27
 
@@ -822,12 +822,12 @@ Legend: **Deps** = task IDs that must be complete before starting this one.
 - **Files:** `src/client/systems/CompendiumUI.luau`, `src/server/init.server.luau`
 - **Output:** Tapping another player opens their compendium in read-only view.
 - **DoD:**
-  - [ ] `ProximityPrompt` or `ClickDetector` appears on player character models
-  - [ ] Prompt does not appear on own character
-  - [ ] Other player's compendium opens correctly in read-only mode
-  - [ ] Server rejects `RequestViewCompendium` if `targetUserId` is not currently in server
-  - [ ] Banner shows correct username
-  - [ ] No edit/purchase actions visible in other-player view
+  - [x] `ProximityPrompt` or `ClickDetector` appears on player character models
+  - [x] Prompt does not appear on own character
+  - [x] Other player's compendium opens correctly in read-only mode
+  - [x] Server rejects `RequestViewCompendium` if `targetUserId` is not currently in server
+  - [x] Banner shows correct username
+  - [x] No edit/purchase actions visible in other-player view
 
 **Deps:** T-32, T-09
 

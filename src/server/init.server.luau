@@ -4,6 +4,7 @@
 -- Server bootstrap entry point.
 -- Systems initialised in strict dependency order; see T-47 for full sequence.
 
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
@@ -12,7 +13,7 @@ require(ReplicatedStorage.Shared.Remotes)
 
 -- 2. PlayerDataManager — loads profiles; other systems gate on OnLoaded.
 -- Requiring it is enough: module-level PlayerAdded wiring runs on require.
-require(ServerScriptService.Server.systems.PlayerDataManager)
+local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
 
 -- 3. WorldBuilder — synchronous; world must exist before players can join.
 local WorldBuilder = require(ServerScriptService.Server.systems.WorldBuilder)
@@ -47,3 +48,35 @@ CaptureSession.Init()
 --    RequestSkipTutorial OnServerInvoke are bound exactly once.
 local TutorialManager = require(ServerScriptService.Server.systems.TutorialManager)
 TutorialManager.Init()
+
+-- 10. RequestViewCompendium — T-46. Bound here (not inside a system) because it
+--     is a pure data query requiring only PlayerDataManager, which is already live.
+local Remotes = require(ReplicatedStorage.Shared.Remotes)
+;(Remotes["RequestViewCompendium"] :: RemoteFunction).OnServerInvoke = function(
+	player: Player,
+	targetUserId: any
+): { [string]: any }
+	if targetUserId == nil then
+		-- Own compendium.
+		local data = PlayerDataManager.GetData(player)
+		return {
+			compendium = if data ~= nil then data.compendium else {},
+			isOwn = true,
+			username = nil,
+		}
+	end
+	if type(targetUserId) ~= "number" then
+		return { compendium = {}, isOwn = false, username = "?" }
+	end
+	local targetPlayer = Players:GetPlayerByUserId(targetUserId)
+	if targetPlayer == nil then
+		-- Player not currently in server — reject.
+		return { compendium = {}, isOwn = false, username = "?" }
+	end
+	local data = PlayerDataManager.GetData(targetPlayer)
+	return {
+		compendium = if data ~= nil then data.compendium else {},
+		isOwn = (targetUserId == player.UserId),
+		username = targetPlayer.Name,
+	}
+end

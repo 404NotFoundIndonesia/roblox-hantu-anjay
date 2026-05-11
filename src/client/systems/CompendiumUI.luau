@@ -62,6 +62,8 @@ local detailDateLabel: TextLabel
 local detailViewport: ViewportFrame
 local bannerLabel: TextLabel
 
+local filterBar: Frame
+
 local detailVisible = false
 local viewportModel: Model?
 local rotationConn: RBXScriptConnection?
@@ -71,6 +73,10 @@ local filterRarity = "All"
 local filterStatus = "All"
 local filterZone = "All"
 local slotFrames: { [string]: TextButton } = {}
+
+-- Non-nil while openForPlayer is synchronously invoking UIManager.open, so that
+-- open() skips spawning its own loadAndDisplay(nil) and avoids a data race.
+local pendingUserId: number? = nil
 
 -- ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -297,6 +303,7 @@ end
 
 local function buildFilterBar(parent: Frame)
 	local bar = Instance.new("Frame") :: Frame
+	filterBar = bar
 	bar.Name = "FilterBar"
 	bar.Size = UDim2.new(1, 0, 0, 40)
 	bar.Position = UDim2.fromScale(0, 0)
@@ -634,6 +641,7 @@ local function loadAndDisplay(targetUserId: number?)
 	end
 	local data = result :: CompendiumData
 
+	filterBar.Visible = data.isOwn
 	if data.isOwn then
 		bannerLabel.Text = LocalizationBridge.get("UI_COMPENDIUM_TITLE")
 	else
@@ -660,9 +668,12 @@ function CompendiumUI.open()
 	filterRarity = "All"
 	filterStatus = "All"
 	filterZone = "All"
-	task.spawn(function()
-		loadAndDisplay(nil)
-	end)
+	filterBar.Visible = true
+	if pendingUserId == nil then
+		task.spawn(function()
+			loadAndDisplay(nil)
+		end)
+	end
 end
 
 function CompendiumUI.close()
@@ -674,8 +685,11 @@ function CompendiumUI.close()
 end
 
 -- Opens the compendium showing another player's data (read-only view).
+-- Filter bar is hidden; no edit/purchase actions are shown.
 function CompendiumUI.openForPlayer(userId: number)
-	UIManager.open("Compendium")
+	pendingUserId = userId
+	UIManager.open("Compendium") -- open() skips its own loadAndDisplay when pendingUserId is set
+	pendingUserId = nil
 	task.spawn(function()
 		loadAndDisplay(userId)
 	end)
@@ -696,6 +710,42 @@ function CompendiumUI.Init()
 		refreshSlot(ghostId)
 		applyFilters()
 	end)
+
+	-- T-46: ProximityPrompt on other players' characters to view their compendium.
+	local function attachViewPrompt(player: Player)
+		if player == LocalPlayer then
+			return
+		end
+		local function onCharacter(char: Model)
+			local hrp = char:WaitForChild("HumanoidRootPart", 5) :: BasePart?
+			if hrp == nil then
+				return
+			end
+			local existing = hrp:FindFirstChild("ViewCompendiumPrompt")
+			if existing ~= nil then
+				existing:Destroy()
+			end
+			local prompt = Instance.new("ProximityPrompt") :: ProximityPrompt
+			prompt.Name = "ViewCompendiumPrompt"
+			prompt.ActionText = "Lihat Kompendium"
+			prompt.ObjectText = player.Name
+			prompt.MaxActivationDistance = 10
+			prompt.RequiresLineOfSight = false
+			prompt.Parent = hrp
+			prompt.Triggered:Connect(function()
+				CompendiumUI.openForPlayer(player.UserId)
+			end)
+		end
+		if player.Character ~= nil then
+			task.spawn(onCharacter, player.Character)
+		end
+		player.CharacterAdded:Connect(onCharacter)
+	end
+
+	for _, player in Players:GetPlayers() do
+		attachViewPrompt(player)
+	end
+	Players.PlayerAdded:Connect(attachViewPrompt)
 
 	_ = gridFrame
 end

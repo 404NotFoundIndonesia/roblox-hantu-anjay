@@ -11,6 +11,7 @@ local XPTable = require(ReplicatedStorage.Shared.XPTable)
 local Types = require(ReplicatedStorage.Shared.Types)
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 
+local GhostDefs = require(ReplicatedStorage.Shared.GhostDefs)
 local GhostSpawnManager = require(ServerScriptService.Server.systems.GhostSpawnManager)
 local GhostAI = require(ServerScriptService.Server.systems.GhostAI)
 local PlayerDataManager = require(ServerScriptService.Server.systems.PlayerDataManager)
@@ -71,6 +72,7 @@ local inputRateLimit: { [string]: number } = {} -- "userId_instanceId" → os.cl
 
 -- ─── Mini-game constants ──────────────────────────────────────────────────────
 
+local RARITY_RANK: { [string]: number } = { Common = 1, Rare = 2, Epic = 3, Mythic = 4 }
 local MANTRATAP_SYMBOLS = { "circle", "star", "moon", "sun", "wave", "spiral" }
 local RHYTHM_BPM = 120
 local SURROUND_RADIUS = 8
@@ -466,6 +468,26 @@ resolveCapture = function(instanceId: string, reason: string)
 		compRemote:FireClient(player, { ghostId = ghostId, entry = data.compendium[ghostId] })
 
 		checkMilestones(player, data)
+
+		-- Update companion ghost to rarest captured (T-45).
+		local bestId: string? = nil
+		local bestRank = 0
+		for gId, entry in data.compendium do
+			if entry.captureCount > 0 then
+				local gDef = GhostDefs[gId]
+				if gDef ~= nil then
+					local rank = RARITY_RANK[gDef.rarity] or 0
+					if rank > bestRank then
+						bestRank = rank
+						bestId = gId
+					end
+				end
+			end
+		end
+		if bestId ~= nil and bestId ~= data.companion then
+			data.companion = bestId
+			;(Remotes["CompanionSet"] :: RemoteEvent):FireClient(player, { ghostId = bestId })
+		end
 
 		-- Quest tracking: GhostCaptured + GroupCapture
 		local capturePos = getEntryPosition(ghostEntry :: any)
