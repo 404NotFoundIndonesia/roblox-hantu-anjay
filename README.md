@@ -86,6 +86,79 @@ ServerPackages/            ← Wally server deps (ProfileService)
 
 ---
 
+## Extending the Game
+
+### Adding a new ghost
+
+**1. `src/shared/GhostDefs.luau`** — add an entry to the `GhostDefs` table:
+```lua
+YourGhostId = {
+    id             = "YourGhostId",
+    nameKey        = "GHOST_YOURGHOST_NAME",
+    loreKey        = "GHOST_YOURGHOST_LORE",
+    rarity         = "Common",        -- "Common" | "Rare" | "Epic" | "Mythic"
+    behavior       = "Wanderer",      -- "Wanderer" | "Hunter" | "Trickster"
+    miniGame       = "MantraTap",     -- any MiniGameType from Types.luau
+    maxResistance  = 3,               -- mini-game hits required to weaken
+    speed          = 6,               -- studs/s movement speed
+    detectionRange = 15,              -- studs; proximity trigger distance
+    soundId        = 0,               -- Roblox audio asset ID (0 = placeholder)
+    modelName      = "YourGhostId",   -- exact Model name in ReplicatedStorage.Assets.Ghosts
+    affinityZones  = { "Kuburan" },   -- zones where spawn weight is doubled
+},
+```
+
+**2. `src/shared/ZoneDefs.luau`** — add the ghost ID to `affinityGhosts` of any relevant zone (optional but recommended).
+
+**3. Studio** — add a ghost Model named `YourGhostId` to `ReplicatedStorage.Assets.Ghosts`. See STUDIO_SETUP.md §7 for required Part properties and Humanoid setup.
+
+**4. Localization** — add two keys to the `LocalizationTable`:
+- `GHOST_YOURGHOST_NAME` → display name
+- `GHOST_YOURGHOST_LORE` → lore text shown in the compendium
+
+That's it. GhostSpawnManager auto-buckets ghosts by `rarity` at startup, so the new ghost immediately enters the spawn pool with the correct rarity weight.
+
+> **Mythic note:** Mythic ghosts use the `TeamSurround` mini-game and are controlled by `startMythicEventLoop` in GhostSpawnManager. Make sure `miniGame = "TeamSurround"` and `behavior = "Trickster"` for Mythic entries, consistent with the existing three.
+
+---
+
+### Adding a new biome
+
+**1. `src/shared/ZoneDefs.luau`** — add an entry to the `ZoneDefs` table:
+```lua
+YourZoneId = {
+    id              = "YourZoneId",
+    modelName       = "YourZoneId",        -- exact Model name in Workspace.World
+    worldOffset     = Vector3.new(X, Y, Z), -- suggested center for Studio placement
+    hauntPointCount = 4,                   -- number of HauntPoint Parts you'll place
+    ambientSoundId  = 0,                   -- Roblox audio asset ID (0 = placeholder)
+    affinityGhosts  = { "Pocong" },        -- ghost IDs with boosted spawn weight here
+    detectionVolume = {
+        min = Vector3.new(X1, Y1, Z1),     -- AABB matching actual island position
+        max = Vector3.new(X2, Y2, Z2),
+    },
+},
+```
+
+**2. `src/shared/Types.luau`** — add the new zone ID to the `ZoneId` union type:
+```lua
+export type ZoneId =
+    "Kuburan" | "KampungTua" | "HutanBambu"
+    | "PantaiSepi" | "KuburanCina" | "SawahHaunted"
+    | "YourZoneId"   -- ← add here
+```
+
+**3. Studio** — build the island model in Studio, name it `YourZoneId`, place it in `Workspace.World`, and add the required number of `HauntPoint` Parts. See STUDIO_SETUP.md §6 for full setup steps.
+
+**4. Localization** — add one key:
+- `ZONE_YOURZONERID_NAME` → display name shown in the HUD zone label
+
+That's it. ZoneDetector, AudioController, GhostSpawnManager, WorldBuilder, and ShardManager all iterate `ZoneDefs` dynamically — they pick up the new zone automatically on next server start.
+
+> **Detection volume:** The AABB must match the actual in-world position of the island. Test with `ZoneDetector` after placing — the HUD zone label should update when you walk onto the island.
+
+---
+
 ## Design Documents
 
 - **[GDD.md](GDD.md)** — full game design: world layout, spirit roster, mini-game specs, progression, economy
