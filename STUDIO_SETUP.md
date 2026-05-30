@@ -213,30 +213,26 @@ Each model **Name** must match the `modelName` field in `GhostDefs.luau`:
 
 ---
 
-## 8. Localization Table
+## 8. Localization / UI Strings
 
-`LocalizationBridge` uses Roblox's built-in `LocalizationService`. The game needs a `LocalizationTable` asset with all UI and ghost name/lore strings.
+All UI strings live in **`src/shared/StringDefs.luau`** — a flat Lua table of key → Indonesian text. `LocalizationBridge` reads this directly, so **no Studio setup is needed** to get text working. Just run the game and all labels resolve immediately.
 
-### 8a. Create the LocalizationTable
+`StringDefs.luau` already contains strings for every UI key, all zone names, all ghost names and lore, tutorial steps, rank titles, quest descriptions, bottle names, and shop text.
 
-1. In **Explorer**, right-click **ReplicatedStorage** → **Insert Object** → `LocalizationTable`.
-2. Name it **`LocalizationTable`** (default name is fine).
-3. In Properties, set **Source Language** to `id` (Indonesian, base language).
+### Editing text
 
-### 8b. Required localization keys
+Open `src/shared/StringDefs.luau` and edit any value. The key names are self-explanatory (`UI_LABEL_ZONE`, `GHOST_Pocong_LORE`, etc.). Format parameters use `{paramName}` syntax — e.g. `"Ada {count} pemain"` with `{ count = 5 }` → `"Ada 5 pemain"`.
 
-**Tutorial steps:**
-`TUT_STEP0`, `TUT_STEP1`, `TUT_STEP2`, `TUT_STEP3`, `TUT_STEP4`, `TUT_STEP5`
+### Multi-language support (optional, production)
 
-**Rank titles:**
-`RANK_PEMULA_TITLE`, `RANK_JAGOAN_TITLE`, `RANK_PARANORMAL_TITLE`, `RANK_DUKUN_TITLE`, `RANK_LEGENDA_TITLE`
+If you want to support languages other than Indonesian:
 
-**Ghost names and lore (60 keys):**
-For each ghost ID: `GHOST_{ID}_NAME` and `GHOST_{ID}_LORE`. Example:
-- `GHOST_POCONG_NAME` → `Pocong`
-- `GHOST_POCONG_LORE` → *(lore text)*
+1. In **Explorer**, right-click the **`LocalizationService`** service (not ReplicatedStorage) → **Insert Object → LocalizationTable**.
+2. Open the table and add columns: `Key`, `Source` (Indonesian), and any locale columns (`en`, `zh-cn`, etc.).
+3. Add a row per key — the `Key` column must match exactly what's in `StringDefs.luau`.
+4. `LocalizationBridge` checks the Roblox translator first and falls back to `StringDefs` if a key is missing.
 
-Ghost IDs: `POCONG`, `KUNTILANAK`, `WEWEGOMBEL`, `BANASPATI`, `SUNDELBOLONG`, `TOYOL`, `TUYUL`, `LEAKWEAK`, `GENDERUWOJR`, `JENGLOT`, `RANGDA`, `ORANGBUNIAN`, `HANTURAYA`, `BABINGEPET`, `PALASIK`, `PENANGGALAN`, `ASWANGMILD`, `MANANANGGALHALF`, `KRASUE`, `PHIPOP`, `NYIBLORONG`, `BATARAKALA`, `RANGDATRUE`, `MAHISASURA`, `LEYAK`, `SANTETSPECTER`, `HANTUKOPEK`, `NYIROROKIDUL`, `DEWIDURGA`, `BATAGARUSHADOW`
+> **Common mistake:** placing the LocalizationTable in ReplicatedStorage does nothing — `LocalizationService:GetTranslatorForPlayerAsync` only reads tables that are children of `LocalizationService`.
 
 ---
 

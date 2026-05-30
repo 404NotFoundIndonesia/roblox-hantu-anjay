@@ -1,20 +1,21 @@
 --!strict
 -- LocalizationBridge — T-26
--- Fetches the player's LocalizationTranslator once; exposes LocalizationBridge.get().
--- Falls back to the raw key if the translator is not yet ready or the key is missing.
+-- Primary source: StringDefs.luau (Indonesian strings, always available).
+-- Secondary source: Roblox LocalizationService translator (for future multi-language support).
+-- Falls back to StringDefs, then to the raw key if both fail.
 local LocalizationService = game:GetService("LocalizationService")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local StringDefs = require(ReplicatedStorage.Shared.StringDefs)
 local LocalPlayer = Players.LocalPlayer
 
 local LocalizationBridge = {}
 
--- Populated asynchronously; nil until GetTranslatorForPlayerAsync completes.
 local translator: any = nil
 
--- Fetch translator in a background task so module load is non-blocking.
--- Other systems receive raw keys as fallback until the translator is ready
--- (typically < 1 second; DoD requires < 3 seconds).
+-- Try to load the Roblox translator in the background (used only when a
+-- LocalizationTable is placed inside LocalizationService for multi-language builds).
 task.spawn(function()
 	local ok, result = pcall(function()
 		return LocalizationService:GetTranslatorForPlayerAsync(LocalPlayer)
@@ -24,29 +25,45 @@ task.spawn(function()
 	end
 end)
 
--- Yields (up to 3 s) until the translator is ready. Called by the client bootstrap
--- before any UI system runs, so all initial UI text uses real localization.
-function LocalizationBridge.Init()
-	local deadline = os.clock() + 3
-	while translator == nil and os.clock() < deadline do
-		task.wait(0.05)
+-- Replaces {paramName} placeholders in a string with values from params.
+local function applyParams(s: string, params: { [string]: any }?): string
+	if params == nil then
+		return s
 	end
+	return (s:gsub("{([%w_]+)}", function(key: string): string
+		local v = params[key]
+		return if v ~= nil then tostring(v) else "{" .. key .. "}"
+	end))
+end
+
+-- No init delay needed — StringDefs is always available synchronously.
+function LocalizationBridge.Init()
+	-- Nothing to wait for; translator is optional.
 end
 
 -- Returns a localized string for `key` with optional format parameters.
--- `params` maps placeholder names to values, e.g. { count = 5, date = "01/01/2025" }.
--- Falls back to the raw key on missing key, translator not ready, or pcall failure.
+-- Resolution order:
+--   1. Roblox translator (if loaded and key exists there)
+--   2. StringDefs table
+--   3. Raw key (last-resort fallback)
 function LocalizationBridge.get(key: string, params: { [string]: any }?): string
+	-- Try Roblox translator first (multi-language builds)
 	local t = translator
-	if t == nil then
-		return key
+	if t ~= nil then
+		local ok, result = pcall(function()
+			return (t :: any):FormatByKey(key, params)
+		end)
+		if ok and type(result) == "string" and result ~= key and #result > 0 then
+			return result
+		end
 	end
-	local ok, result = pcall(function()
-		return (t :: any):FormatByKey(key, params)
-	end)
-	if ok and type(result) == "string" and #result > 0 then
-		return result
+
+	-- Fall back to StringDefs
+	local s = StringDefs[key]
+	if s ~= nil then
+		return applyParams(s, params)
 	end
+
 	return key
 end
 
