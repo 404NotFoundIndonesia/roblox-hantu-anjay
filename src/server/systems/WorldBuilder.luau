@@ -1,112 +1,106 @@
 --!strict
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+-- WorldBuilder — reads pre-placed Workspace models rather than cloning from ReplicatedStorage.
+-- Designer places Hub and all biome islands directly in Workspace (or Workspace.World).
+-- WorldBuilder collects HauntPoints, applies Safe collision group to Hub, then fires Ready.
 local PhysicsService = game:GetService("PhysicsService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Signal = require(ReplicatedStorage.Packages.Signal)
-local Constants = require(ReplicatedStorage.Shared.Constants)
 local ZoneDefs = require(ReplicatedStorage.Shared.ZoneDefs)
 
--- Ensure "Safe" collision group exists. Hub parts carry this group so ghost
--- detection triggers inside the Hub can be excluded server-side.
+-- "Safe" group excludes Hub parts from ghost proximity checks.
 pcall(function()
 	PhysicsService:RegisterCollisionGroup("Safe")
 end)
 
 local WorldBuilder = {}
 
--- Fires once when all islands are placed. Connect before calling Build().
+-- Fires once when all islands are registered. Connect before calling Build().
 WorldBuilder.Ready = Signal.new() :: any
 
 -- ZoneId → ordered array of HauntPoint BaseParts placed in the world.
 -- GhostSpawnManager reads this after Ready fires.
 WorldBuilder.HauntPoints = {} :: { [string]: { BasePart } }
 
+-- Returns a named Model from Workspace.World first, then bare Workspace.
+-- If found outside Workspace.World, moves it in.
+local function findModel(worldFolder: Folder, name: string): Model?
+	local m = worldFolder:FindFirstChild(name)
+	if m and m:IsA("Model") then
+		return m :: Model
+	end
+	local fallback = Workspace:FindFirstChild(name)
+	if fallback and fallback:IsA("Model") then
+		local model = fallback :: Model
+		model.Parent = worldFolder
+		return model
+	end
+	return nil
+end
+
 local function buildWorld()
-	local t0 = os.clock()
+	-- Ensure World folder exists (designer may have pre-created it).
+	local worldFolder = Workspace:FindFirstChild("World") :: Folder?
+	if worldFolder == nil then
+		worldFolder = Instance.new("Folder")
+		worldFolder.Name = "World"
+		worldFolder.Parent = Workspace
+	end
 
-	-- Workspace containers created once; other systems reference these by name.
-	local worldFolder = Instance.new("Folder")
-	worldFolder.Name = "World"
-	worldFolder.Parent = Workspace
+	-- Ghosts folder created at runtime; never pre-create in Studio.
+	if Workspace:FindFirstChild("Ghosts") == nil then
+		local gf = Instance.new("Folder")
+		gf.Name = "Ghosts"
+		gf.Parent = Workspace
+	end
 
-	local ghostsFolder = Instance.new("Folder")
-	ghostsFolder.Name = "Ghosts"
-	ghostsFolder.Parent = Workspace
+	-- Collect biome islands placed by the designer in Studio.
+	for zoneId, zoneDef in ZoneDefs do
+		local island = findModel(worldFolder, zoneDef.modelName)
 
-	local assetsFolder = ReplicatedStorage:FindFirstChild("Assets") :: Folder?
-	local biomesFolder = assetsFolder and assetsFolder:FindFirstChild("Biomes") :: Folder?
+		if island == nil then
+			warn("[WorldBuilder] Biome model not found in Workspace: " .. zoneDef.modelName)
+			WorldBuilder.HauntPoints[zoneId] = {}
+			continue
+		end
 
-	if biomesFolder == nil then
-		warn("[WorldBuilder] ReplicatedStorage.Assets.Biomes not found — no biomes placed")
-	else
-		for zoneId, zoneDef in ZoneDefs do
-			local template = biomesFolder:FindFirstChild(zoneDef.modelName) :: Model?
-
-			if template == nil then
-				warn("[WorldBuilder] Missing biome model:", zoneDef.modelName)
-				WorldBuilder.HauntPoints[zoneId] = {}
-				continue
+		local hauntPoints: { BasePart } = {}
+		for _, desc in island:GetDescendants() do
+			if desc:IsA("BasePart") and desc.Name == "HauntPoint" then
+				table.insert(hauntPoints, desc :: BasePart)
 			end
+		end
+		WorldBuilder.HauntPoints[zoneId] = hauntPoints
 
-			local island = template:Clone() :: Model
-			island.Name = zoneId
-			island:PivotTo(CFrame.new(zoneDef.worldOffset))
-			island.Parent = worldFolder
-
-			-- Collect HauntPoint Parts for this zone.
-			local hauntPoints: { BasePart } = {}
-			for _, desc in island:GetDescendants() do
-				if desc:IsA("BasePart") and desc.Name == "HauntPoint" then
-					table.insert(hauntPoints, desc :: BasePart)
-				end
-			end
-			WorldBuilder.HauntPoints[zoneId] = hauntPoints
-
-			if #hauntPoints ~= zoneDef.hauntPointCount then
-				warn(
-					string.format(
-						"[WorldBuilder] %s: expected %d HauntPoints, got %d",
-						zoneId,
-						zoneDef.hauntPointCount,
-						#hauntPoints
-					)
-				)
-			end
+		if #hauntPoints ~= zoneDef.hauntPointCount then
+			warn(string.format(
+				"[WorldBuilder] %s: expected %d HauntPoints, got %d",
+				zoneId,
+				zoneDef.hauntPointCount,
+				#hauntPoints
+			))
 		end
 	end
 
-	-- Hub island: always present; all its parts are tagged Safe so ghost
-	-- proximity checks ignore players standing on the Hub.
-	local hubTemplate = assetsFolder and assetsFolder:FindFirstChild("Hub") :: Model?
-	if hubTemplate then
-		local hub = hubTemplate:Clone() :: Model
-		hub.Name = "Hub"
-		hub:PivotTo(CFrame.new(Constants.HUB_SPAWN))
-		hub.Parent = worldFolder
-
+	-- Hub: apply Safe collision group so ghost detection ignores Hub players.
+	local hub = findModel(worldFolder, "Hub")
+	if hub ~= nil then
 		for _, desc in hub:GetDescendants() do
 			if desc:IsA("BasePart") then
 				(desc :: BasePart).CollisionGroup = "Safe"
 			end
 		end
 	else
-		warn("[WorldBuilder] Hub model not found in ReplicatedStorage.Assets — Hub island missing")
+		warn("[WorldBuilder] Hub model not found in Workspace — Hub island missing")
 	end
 
-	local elapsed = os.clock() - t0
-	if elapsed > 5 then
-		warn(string.format("[WorldBuilder] Build took %.2fs — exceeds 5s budget", elapsed))
-	else
-		print(string.format("[WorldBuilder] Build complete in %.3fs", elapsed))
-	end
-
+	print("[WorldBuilder] Build complete")
 	WorldBuilder.Ready:Fire()
 end
 
 -- Builds the world synchronously on the calling thread.
--- Must be called from init.server.luau before Players.PlayerAdded is connected
--- so the world exists when the first player joins.
+-- Must be called from init.server.luau before Players.PlayerAdded is connected.
 function WorldBuilder.Build()
 	buildWorld()
 end

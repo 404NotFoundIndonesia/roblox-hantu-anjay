@@ -8,21 +8,16 @@ export type DetectionVolume = {
 export type ZoneDef = {
 	id: string, -- ZoneId
 	modelName: string, -- asset name in ReplicatedStorage/Assets/Biomes/
-	worldOffset: Vector3, -- island center position in world space
+	worldOffset: Vector3, -- suggested island center; designer places model in Studio at this position
 	hauntPointCount: number, -- how many HauntPoint Parts expected in the model
 	ambientSoundId: number, -- Roblox audio asset ID (0 = placeholder)
 	affinityGhosts: { string }, -- GhostIds with boosted spawn weight in this zone
 	detectionVolume: DetectionVolume, -- AABB used by ZoneDetector (exclusive bounds)
 }
 
--- World layout: ~600×600 studs total, varying heights.
--- Hub island is at (0, 50, 0) — not a biome, no entry here.
--- Detection volumes are exclusive (strictly inside = in zone).
--- No two volumes overlap.
---
--- Island size: ~90×90 studs footprint each.
--- Heights: PantaiSepi (15 studs, shore) → HutanBambu (75 studs, high forest).
--- Higher islands host rarer ghost spawns (enforced in GhostSpawnManager).
+-- Islands are placed in Studio by the designer (see STUDIO_SETUP.md §5–6).
+-- Detection volumes must cover the actual in-world position of each island.
+-- If you reposition an island, update detectionVolume here to match.
 
 local ZoneDefs: { [string]: ZoneDef } = {
 
