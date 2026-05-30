@@ -7,6 +7,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Constants = require(ReplicatedStorage.Shared.Constants)
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local ImageDefs = require(ReplicatedStorage.Shared.ImageDefs)
 local LocalizationBridge = require(script.Parent.LocalizationBridge)
 local UIManager = require(script.Parent.UIManager)
 
@@ -64,6 +65,20 @@ local function newButton(parent: Instance, name: string, text: string): TextButt
 	btn.AutoButtonColor = true
 	btn.Parent = parent
 	return btn
+end
+
+local function addIcon(parent: Instance, imageId: number): ImageLabel
+	local img = Instance.new("ImageLabel") :: ImageLabel
+	img.Name = "Icon"
+	img.AnchorPoint = Vector2.new(0, 0.5)
+	img.Size = UDim2.fromScale(0.9, 0.7)
+	img.Position = UDim2.fromScale(0.05, 0.5)
+	img.Image = "rbxassetid://" .. tostring(imageId)
+	img.BackgroundTransparency = 1
+	img.ScaleType = Enum.ScaleType.Fit
+	img.ZIndex = 2
+	img.Parent = parent
+	return img
 end
 
 local function addCorner(parent: Instance, radius: number)
@@ -445,6 +460,19 @@ local function buildScreen()
 	root.Parent = screenGui
 	addPadding(root, 12)
 
+	-- Optional panel background decal (set ImageDefs.DECAL_PANEL_BG to show a texture)
+	local panelBG = Instance.new("ImageLabel") :: ImageLabel
+	panelBG.Name = "PanelBG"
+	panelBG.Size = UDim2.fromScale(1, 1)
+	panelBG.Image = "rbxassetid://" .. tostring(ImageDefs.DECAL_PANEL_BG)
+	panelBG.BackgroundTransparency = 1
+	panelBG.ImageTransparency = 0.85
+	panelBG.ScaleType = Enum.ScaleType.Tile
+	panelBG.TileSize = UDim2.fromOffset(128, 128)
+	panelBG.ZIndex = 0
+	panelBG.Parent = root
+	_ = panelBG
+
 	-- Top bar
 	local topBar = Instance.new("Frame") :: Frame
 	topBar.Name = "TopBar"
@@ -460,12 +488,25 @@ local function buildScreen()
 	titleLbl.Font = Enum.Font.GothamBold
 	titleLbl.TextXAlignment = Enum.TextXAlignment.Left
 
-	-- Shard balance display
+	-- Shard balance display (icon + label)
+	local shardIcon = Instance.new("ImageLabel") :: ImageLabel
+	shardIcon.Name = "ShardIcon"
+	shardIcon.Size = UDim2.new(0, 20, 1, -8)
+	shardIcon.AnchorPoint = Vector2.new(0, 0.5)
+	shardIcon.Position = UDim2.new(0.55, 2, 0.5, 0)
+	shardIcon.Image = "rbxassetid://" .. tostring(ImageDefs.ICON_SHARD)
+	shardIcon.BackgroundTransparency = 1
+	shardIcon.ScaleType = Enum.ScaleType.Fit
+	shardIcon.ZIndex = 2
+	shardIcon.Parent = topBar
+
 	shardBalanceLabel = newLabel(topBar, "ShardBalance", "0 " .. LocalizationBridge.get("UI_SHARDS_LABEL"))
-	shardBalanceLabel.Size = UDim2.fromScale(0.25, 1)
-	shardBalanceLabel.Position = UDim2.fromScale(0.55, 0)
+	shardBalanceLabel.Size = UDim2.fromScale(0.22, 1)
+	shardBalanceLabel.Position = UDim2.new(0.57, 22, 0, 0)
 	shardBalanceLabel.TextColor3 = C_SHARD
 	shardBalanceLabel.Font = Enum.Font.GothamBold
+	shardBalanceLabel.TextXAlignment = Enum.TextXAlignment.Left
+	_ = shardIcon
 
 	local closeBtn = newButton(topBar, "CloseBtn", LocalizationBridge.get("UI_BUTTON_CLOSE"))
 	closeBtn.Size = UDim2.fromOffset(80, 32)
@@ -498,19 +539,39 @@ local function buildScreen()
 		BattlePass = "UI_SHOP_TAB_BATTLEPASS",
 		Boosts = "UI_SHOP_TAB_BOOSTS",
 	}
+	local TAB_ICONS = {
+		Bottles    = ImageDefs.ICON_TAB_BOTTLES,
+		Cosmetics  = ImageDefs.ICON_TAB_COSMETICS,
+		BattlePass = ImageDefs.ICON_TAB_BATTLEPASS,
+		Boosts     = ImageDefs.ICON_TAB_BOOSTS,
+	}
 
 	for i, tabName in TAB_NAMES do
 		local capturedTab = tabName
-		local btn = newButton(tabBar, tabName .. "Tab", LocalizationBridge.get(TAB_KEYS[tabName]))
+		local btn = newButton(tabBar, tabName .. "Tab", "")
 		btn.Size = UDim2.fromScale(0.25, 1)
 		btn.BackgroundColor3 = if tabName == activeTab then C_TAB_ACTIVE else C_TAB_IDLE
 		btn.AutoButtonColor = false
 		btn.LayoutOrder = i
 		addCorner(btn, 0)
+
+		local tabIcon = addIcon(btn, TAB_ICONS[tabName])
+		tabIcon.Size = UDim2.fromScale(0.35, 0.75)
+		tabIcon.AnchorPoint = Vector2.new(0, 0.5)
+		tabIcon.Position = UDim2.fromScale(0.04, 0.5)
+
+		local tabLbl = newLabel(btn, "TabLabel", LocalizationBridge.get(TAB_KEYS[tabName]))
+		tabLbl.Size = UDim2.fromScale(0.6, 1)
+		tabLbl.Position = UDim2.fromScale(0.38, 0)
+		tabLbl.TextXAlignment = Enum.TextXAlignment.Left
+		tabLbl.ZIndex = 2
+
 		btn.Activated:Connect(function()
 			switchTab(capturedTab)
 		end)
 		tabButtons[tabName] = btn
+		_ = tabIcon
+		_ = tabLbl
 	end
 
 	-- Content area

@@ -9,6 +9,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local GhostDefs = require(ReplicatedStorage.Shared.GhostDefs)
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local ImageDefs = require(ReplicatedStorage.Shared.ImageDefs)
 local LocalizationBridge = require(script.Parent.LocalizationBridge)
 local UIManager = require(script.Parent.UIManager)
 
@@ -43,6 +44,13 @@ local RARITY_COLORS: { [string]: Color3 } = {
 	Rare = Color3.fromRGB(60, 120, 220),
 	Epic = Color3.fromRGB(160, 60, 220),
 	Mythic = Color3.fromRGB(255, 180, 0),
+}
+
+local RARITY_ICONS: { [string]: number } = {
+	Common = ImageDefs.ICON_RARITY_COMMON,
+	Rare   = ImageDefs.ICON_RARITY_RARE,
+	Epic   = ImageDefs.ICON_RARITY_EPIC,
+	Mythic = ImageDefs.ICON_RARITY_MYTHIC,
 }
 
 local SLIDE_INFO = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -426,6 +434,18 @@ local function buildGrid(parent: Frame)
 		stroke.Transparency = 0.55
 		stroke.Parent = slot
 
+		-- Rarity icon badge (top-left corner)
+		local rarityBadge = Instance.new("ImageLabel") :: ImageLabel
+		rarityBadge.Name = "RarityBadge"
+		rarityBadge.Size = UDim2.fromOffset(16, 16)
+		rarityBadge.Position = UDim2.fromOffset(3, 3)
+		rarityBadge.Image = "rbxassetid://" .. tostring(RARITY_ICONS[def.rarity] or 0)
+		rarityBadge.BackgroundTransparency = 1
+		rarityBadge.ScaleType = Enum.ScaleType.Fit
+		rarityBadge.ZIndex = 2
+		rarityBadge.Parent = slot
+		_ = rarityBadge
+
 		-- Ghost name label at bottom
 		local nameLabel = newLabel(slot, "GhostName", LocalizationBridge.get(def.nameKey))
 		nameLabel.Size = UDim2.new(1, 0, 0, 18)
@@ -445,9 +465,23 @@ local function buildGrid(parent: Frame)
 		silhouette.Parent = slot
 		addCorner(silhouette, 6)
 
+		-- Ghost silhouette image (placeholder; shown when not yet captured)
+		local silhouetteImg = Instance.new("ImageLabel") :: ImageLabel
+		silhouetteImg.Name = "SilhouetteImg"
+		silhouetteImg.Size = UDim2.fromScale(0.7, 0.6)
+		silhouetteImg.AnchorPoint = Vector2.new(0.5, 0)
+		silhouetteImg.Position = UDim2.fromScale(0.5, 0.06)
+		silhouetteImg.Image = "rbxassetid://" .. tostring(ImageDefs.ICON_GHOST_SILHOUETTE)
+		silhouetteImg.BackgroundTransparency = 1
+		silhouetteImg.ImageColor3 = Color3.fromRGB(40, 40, 60)
+		silhouetteImg.ScaleType = Enum.ScaleType.Fit
+		silhouetteImg.ZIndex = 4
+		silhouetteImg.Parent = silhouette
+		_ = silhouetteImg
+
 		local questionLbl = newLabel(silhouette, "Question", "?")
-		questionLbl.Size = UDim2.fromScale(1, 0.65)
-		questionLbl.Position = UDim2.fromScale(0, 0.12)
+		questionLbl.Size = UDim2.fromScale(1, 0.35)
+		questionLbl.Position = UDim2.fromScale(0, 0.62)
 		questionLbl.TextColor3 = Color3.fromRGB(55, 55, 75)
 		questionLbl.Font = Enum.Font.GothamBold
 		questionLbl.ZIndex = 4

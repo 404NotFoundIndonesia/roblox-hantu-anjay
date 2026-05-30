@@ -7,6 +7,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Constants = require(ReplicatedStorage.Shared.Constants)
 local XPTable = require(ReplicatedStorage.Shared.XPTable)
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
+local ImageDefs = require(ReplicatedStorage.Shared.ImageDefs)
 local LocalizationBridge = require(script.Parent.LocalizationBridge)
 local ZoneDetector = require(script.Parent.ZoneDetector)
 local UIManager = require(script.Parent.UIManager)
@@ -85,6 +86,22 @@ local function newButton(parent: Instance, name: string, text: string): TextButt
 	return btn
 end
 
+-- Adds an icon ImageLabel inside `parent`. Icon fills the top 55% of parent, centered.
+-- Returns the ImageLabel so callers can store the reference if needed.
+local function addIcon(parent: Instance, imageId: number): ImageLabel
+	local img = Instance.new("ImageLabel") :: ImageLabel
+	img.Name = "Icon"
+	img.AnchorPoint = Vector2.new(0.5, 0)
+	img.Size = UDim2.fromScale(0.55, 0.55)
+	img.Position = UDim2.fromScale(0.5, 0.04)
+	img.Image = "rbxassetid://" .. tostring(imageId)
+	img.BackgroundTransparency = 1
+	img.ScaleType = Enum.ScaleType.Fit
+	img.ZIndex = 2
+	img.Parent = parent
+	return img
+end
+
 local function addPadding(parent: Instance, px: number)
 	local pad = Instance.new("UIPadding") :: UIPadding
 	pad.PaddingTop = UDim.new(0, px)
@@ -147,11 +164,26 @@ local function buildTopBar(parent: Frame, isMobile: boolean)
 	lanternFill.Parent = lanternContainer
 	addCorner(lanternFill, 4)
 
-	lanternLbl = newLabel(lanternContainer, "LanternLabel", "🏮 100%")
-	lanternLbl.Size = UDim2.fromScale(1, 1)
+	-- Lantern icon (left side, sits above fill bar)
+	local lanternIcon = Instance.new("ImageLabel") :: ImageLabel
+	lanternIcon.Name = "LanternIcon"
+	lanternIcon.Size = UDim2.fromScale(0.28, 0.85)
+	lanternIcon.AnchorPoint = Vector2.new(0, 0.5)
+	lanternIcon.Position = UDim2.fromScale(0.02, 0.5)
+	lanternIcon.Image = "rbxassetid://" .. tostring(ImageDefs.ICON_LANTERN)
+	lanternIcon.BackgroundTransparency = 1
+	lanternIcon.ScaleType = Enum.ScaleType.Fit
+	lanternIcon.ZIndex = 3
+	lanternIcon.Parent = lanternContainer
+
+	lanternLbl = newLabel(lanternContainer, "LanternLabel", "100%")
+	lanternLbl.Size = UDim2.fromScale(0.68, 1)
+	lanternLbl.Position = UDim2.fromScale(0.32, 0)
 	lanternLbl.TextColor3 = C_BG
 	lanternLbl.Font = Enum.Font.GothamBold
 	lanternLbl.ZIndex = 2
+
+	_ = lanternIcon
 
 	-- Zone label (center 50%)
 	zoneLabel = newLabel(topBar, "ZoneLabel", LocalizationBridge.get("UI_LABEL_ZONE"))
@@ -222,6 +254,14 @@ local BOTTLE_LABELS: { [string]: string } = {
 	BotolRetak = "Retak",
 }
 
+local BOTTLE_ICONS: { [string]: number } = {
+	BotolBiasa    = ImageDefs.ICON_BOTTLE_BIASA,
+	BotolKacaBiru = ImageDefs.ICON_BOTTLE_KACABIRU,
+	BotolEmas     = ImageDefs.ICON_BOTTLE_EMAS,
+	BotolKristal  = ImageDefs.ICON_BOTTLE_KRISTAL,
+	BotolRetak    = ImageDefs.ICON_BOTTLE_RETAK,
+}
+
 local function buildBottleDisplay(parent: Frame)
 	local container = Instance.new("Frame") :: Frame
 	container.Name = "BottleDisplay"
@@ -245,15 +285,25 @@ local function buildBottleDisplay(parent: Frame)
 		slot.Parent = container
 		addCorner(slot, 6)
 
-		local countLbl = newLabel(slot, "Count", "0x")
-		countLbl.Size = UDim2.fromScale(1, 0.55)
-		countLbl.Position = UDim2.fromScale(0, 0.45)
-		countLbl.Font = Enum.Font.GothamBold
+		-- Bottle icon (top 50%)
+		local bottleIcon = addIcon(slot, BOTTLE_ICONS[bottleId])
+		bottleIcon.Size = UDim2.fromScale(0.6, 0.5)
+		bottleIcon.Position = UDim2.fromScale(0.5, 0.02)
 
+		-- Count label (middle 35%)
+		local countLbl = newLabel(slot, "Count", "0x")
+		countLbl.Size = UDim2.fromScale(1, 0.35)
+		countLbl.Position = UDim2.fromScale(0, 0.52)
+		countLbl.Font = Enum.Font.GothamBold
+		countLbl.ZIndex = 2
+
+		-- Name label (bottom 18%)
 		local nameLbl = newLabel(slot, "Name", BOTTLE_LABELS[bottleId])
-		nameLbl.Size = UDim2.fromScale(1, 0.45)
+		nameLbl.Size = UDim2.fromScale(1, 0.18)
+		nameLbl.Position = UDim2.fromScale(0, 0.82)
 		nameLbl.TextColor3 = C_TEXT_DIM
 		nameLbl.Font = Enum.Font.Gotham
+		nameLbl.ZIndex = 2
 
 		bottleSlots[bottleId] = countLbl
 		_ = nameLbl
@@ -293,10 +343,17 @@ local function buildBottomBar(parent: Frame, isMobile: boolean)
 	rowLayout.Parent = btnRow
 
 	-- SCAN button
-	scanButton = newButton(btnRow, "ScanButton", LocalizationBridge.get("UI_BUTTON_SCAN"))
+	scanButton = newButton(btnRow, "ScanButton", "")
 	scanButton.Size = UDim2.fromOffset(btnSize, btnSize)
 	scanButton.BackgroundColor3 = C_SCAN_ACTIVE
+	scanButton.TextYAlignment = Enum.TextYAlignment.Bottom
 	addCorner(scanButton, 8)
+	addIcon(scanButton, ImageDefs.ICON_SCAN)
+	local scanLbl = newLabel(scanButton, "Label", LocalizationBridge.get("UI_BUTTON_SCAN"))
+	scanLbl.Size = UDim2.fromScale(1, 0.32)
+	scanLbl.Position = UDim2.fromScale(0, 0.68)
+	scanLbl.Font = Enum.Font.Gotham
+	scanLbl.ZIndex = 2
 	if not isMobile then
 		keyHint(scanButton, "[E]")
 	end
@@ -307,14 +364,20 @@ local function buildBottomBar(parent: Frame, isMobile: boolean)
 	scanCooldownLabel.BackgroundColor3 = C_BUTTON_DISABLED
 	scanCooldownLabel.BackgroundTransparency = 0.3
 	scanCooldownLabel.Font = Enum.Font.GothamBold
-	scanCooldownLabel.ZIndex = 2
+	scanCooldownLabel.ZIndex = 3
 	scanCooldownLabel.Visible = false
 	addCorner(scanCooldownLabel, 8)
 
 	-- Compendium button
-	local compBtn = newButton(btnRow, "CompendiumButton", LocalizationBridge.get("UI_BUTTON_COMPENDIUM"))
+	local compBtn = newButton(btnRow, "CompendiumButton", "")
 	compBtn.Size = UDim2.fromOffset(btnSize, btnSize)
 	addCorner(compBtn, 8)
+	addIcon(compBtn, ImageDefs.ICON_COMPENDIUM)
+	local compLbl = newLabel(compBtn, "Label", LocalizationBridge.get("UI_BUTTON_COMPENDIUM"))
+	compLbl.Size = UDim2.fromScale(1, 0.32)
+	compLbl.Position = UDim2.fromScale(0, 0.68)
+	compLbl.Font = Enum.Font.Gotham
+	compLbl.ZIndex = 2
 	if not isMobile then
 		keyHint(compBtn, "[F]")
 	end
@@ -323,15 +386,25 @@ local function buildBottomBar(parent: Frame, isMobile: boolean)
 	end)
 
 	-- Shop button
-	local shopBtn = newButton(btnRow, "ShopButton", LocalizationBridge.get("UI_BUTTON_SHOP"))
+	local shopBtn = newButton(btnRow, "ShopButton", "")
 	shopBtn.Size = UDim2.fromOffset(btnSize, btnSize)
 	addCorner(shopBtn, 8)
+	addIcon(shopBtn, ImageDefs.ICON_SHOP)
+	local shopLbl = newLabel(shopBtn, "Label", LocalizationBridge.get("UI_BUTTON_SHOP"))
+	shopLbl.Size = UDim2.fromScale(1, 0.32)
+	shopLbl.Position = UDim2.fromScale(0, 0.68)
+	shopLbl.Font = Enum.Font.Gotham
+	shopLbl.ZIndex = 2
 	if not isMobile then
 		keyHint(shopBtn, "[G]")
 	end
 	shopBtn.Activated:Connect(function()
 		UIManager.open("Shop")
 	end)
+
+	_ = scanLbl
+	_ = compLbl
+	_ = shopLbl
 
 	_ = rowLayout
 end
@@ -354,7 +427,7 @@ local function buildMiniMap(parent: Frame, isMobile: boolean)
 	local mapBG = Instance.new("ImageLabel") :: ImageLabel
 	mapBG.Name = "MapBG"
 	mapBG.Size = UDim2.fromScale(1, 1)
-	mapBG.Image = "rbxassetid://0" -- placeholder; replace with actual map decal
+	mapBG.Image = "rbxassetid://" .. tostring(ImageDefs.ICON_MINIMAP_BG)
 	mapBG.BackgroundColor3 = Color3.fromRGB(25, 30, 20)
 	mapBG.ImageTransparency = 0.3
 	mapBG.Parent = container
@@ -552,7 +625,7 @@ local function handleLanternUpdated(level: number)
 	lanternFill.BackgroundColor3 = if pct > 0.3
 		then C_LANTERN
 		else Color3.fromRGB(200, 80, 50) -- red tint when low
-	lanternLbl.Text = "🏮 " .. tostring(math.floor(level)) .. "%"
+	lanternLbl.Text = tostring(math.floor(level)) .. "%"
 end
 
 function HUD.open()
