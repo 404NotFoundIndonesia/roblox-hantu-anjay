@@ -10,7 +10,6 @@ export type GhostDef = {
 	maxResistance: number,
 	speed: number, -- studs/s
 	detectionRange: number, -- studs; proximity trigger distance
-	soundId: number, -- Roblox audio asset ID (0 = placeholder)
 	modelName: string, -- asset name in ReplicatedStorage/Assets/Ghosts/
 	affinityZones: { string }, -- ZoneIds where this ghost has boosted spawn weight
 }
@@ -30,7 +29,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 3,
 		speed = 5,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "Pocong",
 		affinityZones = { "Kuburan" },
 	},
@@ -45,7 +44,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 3,
 		speed = 6,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "Kuntilanak",
 		affinityZones = { "KampungTua" },
 	},
@@ -60,7 +59,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 2,
 		speed = 4,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "WeweGombel",
 		affinityZones = { "KampungTua" },
 	},
@@ -75,7 +74,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 2,
 		speed = 7,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "Banaspati",
 		affinityZones = { "SawahHaunted" },
 	},
@@ -90,7 +89,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 3,
 		speed = 5,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "SundelBolong",
 		affinityZones = { "HutanBambu" },
 	},
@@ -105,7 +104,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 2,
 		speed = 9,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "Toyol",
 		affinityZones = { "KuburanCina" },
 	},
@@ -120,7 +119,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 2,
 		speed = 9,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "Tuyul",
 		affinityZones = { "KuburanCina" },
 	},
@@ -135,7 +134,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 3,
 		speed = 8,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "LeakWeak",
 		affinityZones = { "SawahHaunted" },
 	},
@@ -150,7 +149,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 3,
 		speed = 6,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "GenderuwoJr",
 		affinityZones = { "KampungTua" },
 	},
@@ -165,7 +164,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 2,
 		speed = 3,
 		detectionRange = 10,
-		soundId = 0,
+
 		modelName = "Jenglot",
 		affinityZones = { "Kuburan" },
 	},
@@ -182,7 +181,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 10,
 		detectionRange = 12,
-		soundId = 0,
+
 		modelName = "Rangda",
 		affinityZones = { "Kuburan", "KuburanCina" },
 	},
@@ -197,7 +196,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 7,
 		detectionRange = 12,
-		soundId = 0,
+
 		modelName = "OrangBunian",
 		affinityZones = { "HutanBambu" },
 	},
@@ -212,7 +211,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 6,
 		speed = 8,
 		detectionRange = 12,
-		soundId = 0,
+
 		modelName = "HantuRaya",
 		affinityZones = { "KampungTua" },
 	},
@@ -227,7 +226,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 8,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "BabiNgepet",
 		affinityZones = { "SawahHaunted" },
 	},
@@ -242,7 +241,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 11,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "Palasik",
 		affinityZones = { "SawahHaunted" },
 	},
@@ -257,7 +256,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 6,
 		speed = 6,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "Penanggalan",
 		affinityZones = { "PantaiSepi" },
 	},
@@ -272,7 +271,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 10,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "AswangMild",
 		affinityZones = { "HutanBambu" },
 	},
@@ -287,7 +286,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 6,
 		speed = 9,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "ManananggalHalf",
 		affinityZones = { "HutanBambu", "PantaiSepi" },
 	},
@@ -302,7 +301,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 5,
 		speed = 8,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "KraSue",
 		affinityZones = { "PantaiSepi", "SawahHaunted" },
 	},
@@ -317,7 +316,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 6,
 		speed = 9,
 		detectionRange = 12,
-		soundId = 0,
+
 		modelName = "PhiPop",
 		affinityZones = { "KuburanCina" },
 	},
@@ -334,7 +333,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 8,
 		speed = 12,
 		detectionRange = 23,
-		soundId = 0,
+
 		modelName = "NyiBlorong",
 		affinityZones = { "PantaiSepi" },
 	},
@@ -349,7 +348,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 8,
 		speed = 7,
 		detectionRange = 23,
-		soundId = 0,
+
 		modelName = "BataraKala",
 		affinityZones = { "Kuburan" },
 	},
@@ -364,7 +363,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 9,
 		speed = 11,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "RangdaTrue",
 		affinityZones = { "KuburanCina" },
 	},
@@ -379,7 +378,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 8,
 		speed = 13,
 		detectionRange = 23,
-		soundId = 0,
+
 		modelName = "Mahisasura",
 		affinityZones = { "Kuburan" },
 	},
@@ -394,7 +393,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 9,
 		speed = 10,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "Leyak",
 		affinityZones = { "Kuburan", "KuburanCina" },
 	},
@@ -409,7 +408,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 8,
 		speed = 8,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "SantetSpecter",
 		affinityZones = { "Kuburan", "KampungTua" },
 	},
@@ -424,7 +423,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 7,
 		speed = 9,
 		detectionRange = 15,
-		soundId = 0,
+
 		modelName = "HantuKopek",
 		affinityZones = { "KampungTua" },
 	},
@@ -441,7 +440,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 10,
 		speed = 14,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "NyiRoroKidul",
 		affinityZones = { "PantaiSepi" },
 	},
@@ -456,7 +455,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 10,
 		speed = 12,
 		detectionRange = 25,
-		soundId = 0,
+
 		modelName = "DewiDurga",
 		affinityZones = { "Kuburan" },
 	},
@@ -471,7 +470,7 @@ local GhostDefs: { [string]: GhostDef } = {
 		maxResistance = 10,
 		speed = 15,
 		detectionRange = 20,
-		soundId = 0,
+
 		modelName = "BataraGuruShadow",
 		-- Server-wide event ghost: can appear in any zone
 		affinityZones = {

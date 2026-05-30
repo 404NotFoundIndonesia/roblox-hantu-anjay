@@ -10,7 +10,6 @@ export type ZoneDef = {
 	modelName: string, -- asset name in ReplicatedStorage/Assets/Biomes/
 	worldOffset: Vector3, -- suggested island center; designer places model in Studio at this position
 	hauntPointCount: number, -- how many HauntPoint Parts expected in the model
-	ambientSoundId: number, -- Roblox audio asset ID (0 = placeholder)
 	affinityGhosts: { string }, -- GhostIds with boosted spawn weight in this zone
 	detectionVolume: DetectionVolume, -- AABB used by ZoneDetector (exclusive bounds)
 }
@@ -26,7 +25,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "Kuburan",
 		worldOffset = Vector3.new(-280, 30, 0),
 		hauntPointCount = 4,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"Pocong",
 			"Jenglot",
@@ -49,7 +48,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "KampungTua",
 		worldOffset = Vector3.new(0, 60, 270),
 		hauntPointCount = 5,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"Kuntilanak",
 			"WeweGombel",
@@ -70,7 +69,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "HutanBambu",
 		worldOffset = Vector3.new(220, 75, 150),
 		hauntPointCount = 3,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"SundelBolong",
 			"OrangBunian",
@@ -89,7 +88,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "PantaiSepi",
 		worldOffset = Vector3.new(250, 15, -220),
 		hauntPointCount = 3,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"Penanggalan",
 			"ManananggalHalf",
@@ -109,7 +108,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "KuburanCina",
 		worldOffset = Vector3.new(-200, 40, -240),
 		hauntPointCount = 4,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"Toyol",
 			"Tuyul",
@@ -129,7 +128,7 @@ local ZoneDefs: { [string]: ZoneDef } = {
 		modelName = "SawahHaunted",
 		worldOffset = Vector3.new(60, 55, -300),
 		hauntPointCount = 4,
-		ambientSoundId = 0,
+
 		affinityGhosts = {
 			"Banaspati",
 			"LeakWeak",

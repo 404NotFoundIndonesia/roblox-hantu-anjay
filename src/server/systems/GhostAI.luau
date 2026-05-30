@@ -22,7 +22,6 @@ type GhostDef = {
 	maxResistance: number,
 	speed: number,
 	detectionRange: number,
-	soundId: number,
 	modelName: string,
 	affinityZones: { string },
 }

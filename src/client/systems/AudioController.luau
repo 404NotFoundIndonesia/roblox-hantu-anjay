@@ -10,7 +10,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Remotes = require(ReplicatedStorage.Shared.Remotes)
 local ZoneDefs = require(ReplicatedStorage.Shared.ZoneDefs)
-local GhostDefs = require(ReplicatedStorage.Shared.GhostDefs)
+local AudioDefs = require(ReplicatedStorage.Shared.AudioDefs)
 local ZoneDetector = require(script.Parent.ZoneDetector)
 
 local LocalPlayer = Players.LocalPlayer
@@ -33,18 +33,7 @@ local TENSION_TICK = 0.5 -- seconds between tension recalculations
 local AMBIENT_FADE = TweenInfo.new(1, Enum.EasingStyle.Linear)
 local AMBIENT_MAX_VOL = 0.4
 
--- Placeholder IDs — replace with real Roblox asset IDs before ship.
-local TENSION_SOUND_ID: number = 0
-
--- ─── UI SFX lookup (PRD §17.4) ────────────────────────────────────────────────
-
-local UI_SOUND_IDS: { [string]: number } = {
-	capture_success = 0, -- Gamelan note
-	capture_fail    = 0, -- Glass shatter
-	level_up        = 0, -- Gamelan fanfare
-	minigame_hit    = 0, -- Percussion tap
-	quest_complete  = 0, -- Short chime
-}
+-- All audio IDs are defined in AudioDefs.luau — edit that file to set real asset IDs.
 
 -- ─── State ────────────────────────────────────────────────────────────────────
 
@@ -74,9 +63,8 @@ local function getOrCreateAmbient(zoneId: string): Sound?
 	end
 	local s = Instance.new("Sound") :: Sound
 	s.Name = "Ambient_" .. zoneId
-	s.SoundId = if def.ambientSoundId > 0
-		then "rbxassetid://" .. tostring(def.ambientSoundId)
-		else ""
+	local ambientId = (AudioDefs.ZONE_AMBIENT :: { [string]: number })[zoneId] or 0
+	s.SoundId = if ambientId > 0 then "rbxassetid://" .. tostring(ambientId) else ""
 	s.Looped = true
 	s.Volume = 0
 	s.Parent = ambientContainer
@@ -159,9 +147,9 @@ local function playGhostSFX(instanceId: string)
 	if ghostId == nil then
 		return
 	end
-	local def = GhostDefs[ghostId]
-	if def == nil or def.soundId == 0 then
-		return -- no sound configured
+	local sfxId = (AudioDefs.GHOST_SFX :: { [string]: number })[ghostId] or 0
+	if sfxId == 0 then
+		return -- no sound configured for this ghost
 	end
 
 	local ghostsFolder = workspace:FindFirstChild("Ghosts") :: Folder?
@@ -179,7 +167,7 @@ local function playGhostSFX(instanceId: string)
 
 	local s = Instance.new("Sound") :: Sound
 	s.Name = "GhostSFX"
-	s.SoundId = "rbxassetid://" .. tostring(def.soundId)
+	s.SoundId = "rbxassetid://" .. tostring(sfxId)
 	s.Looped = true
 	s.RollOffMaxDistance = 60
 	s.RollOffMinDistance = 8
@@ -205,7 +193,7 @@ end
 
 -- playUI plays a one-shot UI sound by key. Silent fail on unknown keys.
 function AudioController.playUI(key: string)
-	local soundId = UI_SOUND_IDS[key]
+	local soundId = (AudioDefs.UI_SFX :: { [string]: number })[key]
 	if soundId == nil then
 		warn("[AudioController] Unknown UI sound key:", key)
 		return
@@ -237,13 +225,13 @@ function AudioController.Init()
 	-- Tension drone (always running, volume driven by proximity).
 	tensionSound = Instance.new("Sound") :: Sound
 	tensionSound.Name = "TensionDrone"
-	tensionSound.SoundId = if TENSION_SOUND_ID > 0
-		then "rbxassetid://" .. tostring(TENSION_SOUND_ID)
+	tensionSound.SoundId = if AudioDefs.TENSION_DRONE > 0
+		then "rbxassetid://" .. tostring(AudioDefs.TENSION_DRONE)
 		else ""
 	tensionSound.Looped = true
 	tensionSound.Volume = 0
 	tensionSound.Parent = SoundService
-	if TENSION_SOUND_ID > 0 then
+	if AudioDefs.TENSION_DRONE > 0 then
 		tensionSound:Play()
 	end
 

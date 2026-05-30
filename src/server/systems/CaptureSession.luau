@@ -29,7 +29,6 @@ type GhostDef = {
 	maxResistance: number,
 	speed: number,
 	detectionRange: number,
-	soundId: number,
 	modelName: string,
 	nameKey: string,
 	loreKey: string,
